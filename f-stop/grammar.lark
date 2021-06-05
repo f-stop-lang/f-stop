@@ -1,0 +1,9 @@
+?start: open_stmt*
+open_stmt: "OPEN" string "AS" NAME
+string: STRING
+%import common.WS
+%ignore WS
+%import common.WS_INLINE
+%import common.ESCAPED_STRING -> STRING
+%ignore WS_INLINE
+%import common.CNAME -> NAME
