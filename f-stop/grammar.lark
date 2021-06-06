@@ -1,6 +1,7 @@
 ?start: statement*
 statement: "OPEN" string "AS" NAME -> open_stmt
 string: STRING
+
 %import common.WS
 %ignore WS
 %import common.WS_INLINE
