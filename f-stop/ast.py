@@ -5,11 +5,12 @@ class String:
     def eval(self):
         return self.value
     
+    
 class Env:
     def __init__(self) -> None:
-        self.images = {}
+        self.images: dict = {}
 
+        
 class Open:
     def __init__(self) -> None:
         pass
-
