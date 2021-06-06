@@ -1,5 +1,5 @@
-?start: open_stmt*
-open_stmt: "OPEN" string "AS" NAME
+?start: statement*
+statement: "OPEN" string "AS" NAME -> open_stmt
 string: STRING
 %import common.WS
 %ignore WS
