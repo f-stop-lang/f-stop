@@ -9,11 +9,9 @@ class String:
     def eval(self, env) -> str:
         return self.value
     
-    
+"""
 class Coordinate:
-    """
     Equivalent of a tuple in Python.
-    """
     def __init__(self, value: tuple) -> None:
         self.value: tuple = value
         
@@ -28,7 +26,7 @@ class Coordinate:
     def __repr__(self) -> str: 
         # Backwards compatibility for Python <3.5
         return '<Coordinate {!r}>'.format(self.value)
-    
+""" 
     
 class Env:
     def __init__(self) -> None:
