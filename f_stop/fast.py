@@ -5,7 +5,7 @@ class String:
     Represents a string.
     """
     def __init__(self, value: str) -> None:
-        self.value = value[1:-1]
+        self.value = value.strip("'").strip('"')
     
     def __repr__(self) -> str:
         # Backwards compatibility for Python <3.5
