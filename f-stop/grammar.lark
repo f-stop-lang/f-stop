@@ -1,9 +1,0 @@
-?start: statement*
-statement: "OPEN" string "AS" NAME -> open_stmt
-string: /(["']).*?(?<!\\)\1/
-
-%import common.WS
-%ignore WS
-%import common.WS_INLINE
-%ignore WS_INLINE
-%import common.CNAME -> NAME
