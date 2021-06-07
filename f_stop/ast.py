@@ -1,4 +1,5 @@
-class String:
+import PIL
+class DoubleQuotedString:
     def __init__(self, value: str) -> None:
         self.value = value
     
@@ -6,7 +7,7 @@ class String:
         # Backwards compatibility for Python <3.5
         return '<String "{}">'.format(self.value)
     
-    def eval(self, env) -> str:
+    def eval(self, env=None) -> str:
         return self.value
     
 """
@@ -34,5 +35,10 @@ class Env:
 
         
 class Open:
-    def __init__(self, env) -> None:
-        pass
+    def __init__(self, image, value) -> None:
+        self.value = String(value)
+        self.image = image
+
+    def eval(self, env):
+        env[self.value.eval(env)] = PIL.Image.open(self.image)
+        print(env[self.value.eval()])

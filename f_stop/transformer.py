@@ -6,8 +6,8 @@ from . import ast
 @v_args(inline=True)
 class FStopTransformer(Transformer):
     def open_stmt(self, image, name):
-        pass
+        return ast.Open(image=image, value=name)
     
     def string(self, s: str) -> ast.String:
-        val = str(s).strip('"')
+        val = str(s).strip('"').strip("'")
         return ast.String(s)

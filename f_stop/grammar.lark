@@ -1,0 +1,14 @@
+?start: expr*
+        |statement*
+statement: "OPEN" expr "AS" NAME -> open_stmt
+
+expr: SINGLE_QUOTED_STRING-> single_quoted_string
+    | STRING -> double_quoted_string
+SINGLE_QUOTED_STRING:  /'[^']*'/
+
+%import common.WS
+%ignore WS
+%import common.WS_INLINE
+%import common.ESCAPED_STRING -> STRING
+%ignore WS_INLINE
+%import common.CNAME -> NAME
