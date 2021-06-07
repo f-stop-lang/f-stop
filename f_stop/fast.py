@@ -1,7 +1,7 @@
 import PIL
 class String:
     def __init__(self, value: str) -> None:
-        self.value = value
+        self.value = value.strip('"').strip("'")
     
     def __repr__(self) -> str:
         # Backwards compatibility for Python <3.5
@@ -9,6 +9,7 @@ class String:
     
     def eval(self, env=None) -> str:
         return self.value
+
     
 """
 class Coordinate:
@@ -38,7 +39,10 @@ class Open:
     def __init__(self, image, value) -> None:
         self.value = String(value)
         self.image = image
+        print(self.value)
+        print(self.image)
+        
 
     def eval(self, env):
-        env[self.value.eval(env)] = PIL.Image.open(self.image)
+        env[self.value.eval(env)] = PIL.Image.open(self.image.eval())
         print(env[self.value.eval()])
