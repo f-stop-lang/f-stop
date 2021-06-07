@@ -1,8 +1,8 @@
 from lark import Lark, Transformer, v_args
 from PIL import Image
 
-from transformer import FStopTransformer #type: ignore
-from fast import Env #type: ignore
+from transformer import FStopTransformer   #type: ignore
+from fast import Env  #type: ignore
 
 if __name__ == '__main__':
     with open('grammar.lark') as grammar:
