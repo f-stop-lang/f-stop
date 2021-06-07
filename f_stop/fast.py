@@ -41,6 +41,9 @@ class Env:
     def __init__(self) -> None:
         self.images: dict = {}
 
+    def __setitem__(self, key, value):
+        self.images.__setitem__(key, value)
+
         
 class Open:
     """ 
