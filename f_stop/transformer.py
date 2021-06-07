@@ -1,6 +1,6 @@
 from lark import Transformer, v_args
 
-from fast import String, Open
+from .fast import String, Open
 
 
 @v_args(inline=True)

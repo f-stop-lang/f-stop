@@ -1,5 +1,7 @@
 import PIL
+
 class String:
+    
     def __init__(self, value: str) -> None:
         self.value = value.strip('"').strip("'")
     
@@ -31,11 +33,13 @@ class Coordinate:
 """ 
     
 class Env:
+
     def __init__(self) -> None:
         self.images: dict = {}
 
         
 class Open:
+
     def __init__(self, image, value) -> None:
         self.value = String(value)
         self.image = image

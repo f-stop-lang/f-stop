@@ -13,4 +13,3 @@ if __name__ == '__main__':
     parsed = f_stop_parser.parse(text)
     print(parsed.pretty())
     x = FStopTransformer().transform(parsed).eval(Env())
-
