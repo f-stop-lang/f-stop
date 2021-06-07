@@ -1,5 +1,5 @@
 import PIL
-class DoubleQuotedString:
+class String:
     def __init__(self, value: str) -> None:
         self.value = value
     
