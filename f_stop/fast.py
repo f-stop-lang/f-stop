@@ -1,9 +1,11 @@
 import PIL
 
 class String:
-    
+    """ 
+    Represents a string.
+    """
     def __init__(self, value: str) -> None:
-        self.value = value.strip('"').strip("'")
+        self.value = value[1:-1]
     
     def __repr__(self) -> str:
         # Backwards compatibility for Python <3.5
@@ -33,19 +35,23 @@ class Coordinate:
 """ 
     
 class Env:
-
+    """ 
+    Represents a program environment.
+    """
     def __init__(self) -> None:
         self.images: dict = {}
 
         
 class Open:
-
-    def __init__(self, image, value) -> None:
+    """ 
+    Represents the open statement.
+    """
+    def __init__(self, image: ..., value: ...) -> None:
         self.value = String(value)
         self.image = image
+        
         print(self.value)
         print(self.image)
-        
 
     def eval(self, env):
         env[self.value.eval(env)] = PIL.Image.open(self.image.eval())
