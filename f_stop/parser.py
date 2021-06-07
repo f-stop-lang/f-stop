@@ -12,6 +12,7 @@ f_stop_parser = Lark.open('grammar.lark', rel_to=__file__)
 text = "OPEN 'test.png' AS im"
 parsed = f_stop_parser.parse(text)
 print(parsed.pretty())
-x = FStopTransformer().transform(parsed).eval(Env())
-
+env = Env()
+x = FStopTransformer().transform(parsed).eval(env)
+print(env.keys())
 

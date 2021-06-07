@@ -44,5 +44,5 @@ class Open:
         
 
     def eval(self, env):
-        env[self.value.eval(env)] = PIL.Image.open(self.image.eval())
-        print(env[self.value.eval()])
+            env[self.value.eval(env)] = PIL.Image.open(self.image.eval())
+            print(env[self.value.eval()])
