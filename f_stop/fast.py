@@ -1,3 +1,5 @@
+from typing import Any
+
 import PIL.Image
 
 class String:
@@ -41,10 +43,15 @@ class Env:
     def __init__(self) -> None:
         self.images: dict = {}
 
-    def __setitem__(self, key, value):
-        self.images.__setitem__(key, value)
+    def __setitem__(self, key, value) -> None:
+        self.images[key] = value
 
-        
+    def __getitem__(self, key) -> Any:
+        return self.images[key]
+
+    def __delitem__(self, key) -> None:
+        del self.images[key]
+
 class Open:
     """ 
     Represents the open statement.
