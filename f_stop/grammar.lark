@@ -1,5 +1,5 @@
 ?start: statement*
-statement: "OPEN" string "AS" NAME -> open_stmt
+statement: "OPEN"i string "AS"i NAME -> open_stmt
 string: /(["']).*?(?<!\\)\1/
 
 %import common.WS

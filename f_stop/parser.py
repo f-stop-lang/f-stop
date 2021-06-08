@@ -9,7 +9,7 @@ if __name__ == '__main__':
         grammar = grammar.read()
     
     f_stop_parser = Lark.open('grammar.lark', rel_to=__file__)
-    text = "OPEN 'test.png' AS im"
+    text = "open 'test.png' AS im"
     parsed = f_stop_parser.parse(text)
     print(parsed.pretty())
     x = FStopTransformer().transform(parsed).eval(Env())
