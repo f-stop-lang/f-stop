@@ -12,4 +12,6 @@ if __name__ == '__main__':
     text = "open 'test.png' AS im"
     parsed = f_stop_parser.parse(text)
     print(parsed.pretty())
-    x = FStopTransformer().transform(parsed).eval(Env())
+    env = Env()
+    x = FStopTransformer().transform(parsed).eval(env)
+    print(env.images.keys())
