@@ -66,3 +66,14 @@ class Open:
     def eval(self, env):
         env[self.value.eval(env)] = PIL.Image.open(self.image.eval())
         print(env[self.value.eval()])
+"""
+class Resize:
+    def __init__(self, image, coord1, coord2) -> None:
+        self.image = image
+        self.coord1 = coord1
+        self.coord2 = coord2
+
+    def eval(self, env):
+        im = env.images.get(self.image)
+        if x 
+"""

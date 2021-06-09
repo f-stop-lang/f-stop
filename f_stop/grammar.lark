@@ -1,5 +1,6 @@
 ?start: statement*
 statement: "OPEN"i string "AS"i NAME -> open_stmt
+        |"RESIZE"i NAME "(" NUMBER "," NUMBER ")" -> resize_stmt
 string: /(["']).*?(?<!\\)\1/
 
 %import common.WS
@@ -7,3 +8,6 @@ string: /(["']).*?(?<!\\)\1/
 %import common.WS_INLINE
 %ignore WS_INLINE
 %import common.CNAME -> NAME
+%import common.NUMBER -> NUMBER
+%import common.NEWLINE -> NEWLINE
+%ignore NEWLINE

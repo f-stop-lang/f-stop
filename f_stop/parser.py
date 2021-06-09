@@ -9,9 +9,12 @@ if __name__ == '__main__':
         grammar = grammar.read()
     
     f_stop_parser = Lark.open('grammar.lark', rel_to=__file__)
-    text = "open 'test.png' AS im"
+    text = "open 'test.png' AS im\nopen 'test.png' as hm"
     parsed = f_stop_parser.parse(text)
     print(parsed.pretty())
     env = Env()
-    x = FStopTransformer().transform(parsed).eval(env)
+    x = FStopTransformer().transform(parsed)#.eval(env)
+    print(type(x))
+    print(x)
+    x.eval(env)
     print(env.images.keys())
