@@ -60,8 +60,6 @@ class Open:
         self.value = String(value)
         self.image = image
         
-        print(self.value)
-        print(self.image)
 
     def eval(self, env):
         env[self.value.eval(env)] = PIL.Image.open(self.image.eval())
@@ -77,3 +75,11 @@ class Resize:
         im = env.images.get(self.image)
         if x 
 """
+
+class Start:
+    def __init__(self, statements) -> None:
+        self.statements = statements
+
+    def eval(self, env):
+        for i in self.statements:
+            i.eval(env)

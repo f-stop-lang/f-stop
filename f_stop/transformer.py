@@ -1,13 +1,11 @@
 from lark import Transformer, v_args
 
-from fast import String, Open  #type: ignore
+from fast import String, Open, Start  #type: ignore
 
 
 @v_args(inline=True)
 class FStopTransformer(Transformer):
     def open_stmt(self, image: str, name: str) -> Open:
-        print(image)
-        print(name)
         return Open(image=image, value=name)
 
     def resize_stmt(self, image: str, coord1: int, coord2: int):
@@ -19,3 +17,7 @@ class FStopTransformer(Transformer):
     def string(self, s: str) -> String:
         val = str(s).strip('"').strip("'")
         return String(s)
+
+
+    def start(self, *statements):
+        return Start(statements)
