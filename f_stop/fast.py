@@ -1,4 +1,4 @@
-from typing import Any, Dict as Dick
+from typing import Any, Dict
 
 import PIL.Image
 
@@ -18,14 +18,15 @@ class String:
 
     
 
-    
+
 class Env:
     """ 
     Represents a program environment.
     """
     def __init__(self) -> None:
-        self.images: Dick[str, PIL.Image.Image] = {}
+        self.images: Dict[str, PIL.Image.Image] = {}
 
+    #Honestly, these aren't necessary, i'm just very lazy to type env.images a buncha times
     def __setitem__(self, key: str, value: Any) -> None:
         self.images[key] = value
 
