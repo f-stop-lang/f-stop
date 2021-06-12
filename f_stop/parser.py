@@ -11,8 +11,6 @@ if __name__ == '__main__':
     f_stop_parser = Lark.open('grammar.lark', rel_to=__file__)
     text = "open 'test.png' AS im\nRESIZE im (300, 300,)"
     parsed = f_stop_parser.parse(text)
-    print("TREE: \n" + parsed.pretty())
+    print(parsed.pretty())
     env = Env()
     x = FStopTransformer().transform(parsed).eval(env)
-    print(env.images.keys())
-    print(env.images['im'].size)

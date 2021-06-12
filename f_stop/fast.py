@@ -49,19 +49,19 @@ class Open:
 
     def eval(self, env):
         env[self.value.eval(env)] = PIL.Image.open(self.image.eval())
-        print("OPEN STATMENT: " , env[self.value.eval()])
+
 
 class Resize:
     def __init__(self, image, tup) -> None:
         self.image = image
         self.tup = tup
-        print(type(self.tup))
+
 
     def eval(self, env):
         if not (x := env.images.get(self.image)):
             raise Exception(F"{self.image} COULD NOT BE FOUND YOU DUMBO")
         env[self.image] = x.resize(self.tup.eval(env))
-        print("resized image :D")
+
 
 
 class Start:
@@ -75,8 +75,7 @@ class Start:
 class Tuple:
     def __init__(self, tup) -> None:
         self.tuple = eval(tup)
-        print(self.tuple)
-        print(type(self.tuple))
+
 
     def eval(self, env):
         return self.tuple
