@@ -11,30 +11,13 @@ class String:
     
     def __repr__(self) -> str:
         # Backwards compatibility for Python <3.5
-        return '<String "{}">'.format(self.value)
+        return f'<String "{self.value}">'
     
     def eval(self, env=None) -> str:
         return self.value
 
     
-"""
-class Coordinate:
-    Equivalent of a tuple in Python.
-    def __init__(self, value: tuple) -> None:
-        self.value: tuple = value
-        
-    @property
-    def x(self) -> int:
-        return self.value[0]
-    
-    @property
-    def y(self) -> int:
-        return self.value[1]
-    
-    def __repr__(self) -> str: 
-        # Backwards compatibility for Python <3.5
-        return '<Coordinate {!r}>'.format(self.value)
-""" 
+
     
 class Env:
     """ 
