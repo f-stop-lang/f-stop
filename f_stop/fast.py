@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Dict as Dick
 
 import PIL.Image
 
@@ -41,18 +41,18 @@ class Env:
     Represents a program environment.
     """
     def __init__(self) -> None:
-        self.images: dict = {}
+        self.images: Dick[str, PIL.Image.Image] = {}
 
-    def __setitem__(self, key, value) -> None:
+    def __setitem__(self, key: str, value: Any) -> None:
         self.images[key] = value
 
-    def __getitem__(self, key) -> Any:
+    def __getitem__(self, key: str) -> Any:
         return self.images[key]
 
-    def __delitem__(self, key) -> None:
+    def __delitem__(self, key: str) -> None:
         del self.images[key]
 
-    def get(self, key, default=None):
+    def get(self, key: str, default: Any=None):
         return self.images.get(key, default)
 
 class Open:
