@@ -1,8 +1,8 @@
 ?start: statement*
 statement: "OPEN"i string "AS"i NAME -> open_stmt
-        |"RESIZE"i NAME "(" NUMBER "," NUMBER ")" -> resize_stmt
+        |"RESIZE"i NAME ntuple -> resize_stmt
 string: /(["']).*?(?<!\\)\1/
-
+ntuple: /((.+,?)+)/
 %import common.WS
 %ignore WS
 %import common.WS_INLINE

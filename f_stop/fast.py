@@ -52,6 +52,9 @@ class Env:
     def __delitem__(self, key) -> None:
         del self.images[key]
 
+    def get(self, key, default=None):
+        return self.images.get(key, default)
+
 class Open:
     """ 
     Represents the open statement.
@@ -63,18 +66,20 @@ class Open:
 
     def eval(self, env):
         env[self.value.eval(env)] = PIL.Image.open(self.image.eval())
-        print(env[self.value.eval()])
-"""
+        print("OPEN STATMENT: " , env[self.value.eval()])
+
 class Resize:
-    def __init__(self, image, coord1, coord2) -> None:
+    def __init__(self, image, tup) -> None:
         self.image = image
-        self.coord1 = coord1
-        self.coord2 = coord2
+        self.tup = tup
+        print(type(self.tup))
 
     def eval(self, env):
-        im = env.images.get(self.image)
-        if x 
-"""
+        if not (x := env.images.get(self.image)):
+            raise Exception(F"{self.image} COULD NOT BE FOUND YOU DUMBO")
+        env[self.image] = x.resize(self.tup.eval(env))
+        print("resized image :D")
+
 
 class Start:
     def __init__(self, statements) -> None:
@@ -83,3 +88,12 @@ class Start:
     def eval(self, env):
         for i in self.statements:
             i.eval(env)
+
+class Tuple:
+    def __init__(self, tup) -> None:
+        self.tuple = eval(tup)
+        print(self.tuple)
+        print(type(self.tuple))
+
+    def eval(self, env):
+        return self.tuple
