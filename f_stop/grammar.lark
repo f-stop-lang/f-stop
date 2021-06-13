@@ -11,3 +11,4 @@ ntuple: /((.+,?)+)/
 %import common.NUMBER -> NUMBER
 %import common.NEWLINE -> NEWLINE
 %ignore NEWLINE
+%import common.FLOAT -> FLOAT

@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Dict, Tuple
 
 import PIL.Image
 
@@ -78,5 +78,5 @@ class Tuple:
         self.tuple = eval(tup)
 
 
-    def eval(self, env):
+    def eval(self, env) -> Tuple:
         return self.tuple

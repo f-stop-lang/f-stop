@@ -1,0 +1,2 @@
+OPEN "test.png" AS im
+RESIZE im (300, 300)

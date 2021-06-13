@@ -1,6 +1,6 @@
 from lark import Transformer, v_args
 
-from fast import String, Open, Start, Tuple, Resize  #type: ignore
+from .fast import String, Open, Start, Tuple, Resize  #type: ignore
 
 
 @v_args(inline=True)
