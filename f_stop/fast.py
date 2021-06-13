@@ -89,3 +89,13 @@ class Invert:
         if not (x := env.get(self.im)):
             raise NameError(f"{self.im} COULD NOT BE FOUND YOU LAXY BIINCH")
         env[self.im] = ImageOps.invert(x)
+
+class Solarize:
+    def __init__(self, im, thres) -> None:
+        self.im = im
+        self.thres = thres
+
+    def eval(self, env: Env):
+        if not (x := env.get(self.im)):
+            raise NameError(f"{self.im} COULD NOT BE FOUND YOU LAXY BIINCH")
+        env[self.im] = ImageOps.solarize(x, self.thres)

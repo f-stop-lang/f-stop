@@ -1,6 +1,6 @@
 from lark import Transformer, v_args
 
-from .fast import String, Open, Start, Tuple, Resize, Invert  #type: ignore
+from .fast import *  #type: ignore
 
 from typing import List
 @v_args(inline=True)
@@ -25,3 +25,6 @@ class FStopTransformer(Transformer):
 
     def invert_stmt(self, var) -> Invert:
         return Invert(var)
+
+    def solarize_stmt(self, im, threshold: int=128):
+        return Solarize(im, threshold)
