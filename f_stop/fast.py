@@ -1,6 +1,6 @@
-from typing import Any, Dict, Tuple
+from typing import Any, Dict, List, Tuple
 
-import PIL.Image
+from PIL import Image, ImageOps
 
 class String:
     """ 
@@ -24,7 +24,7 @@ class Env:
     Represents a program environment.
     """
     def __init__(self) -> None:
-        self.images: Dict[str, PIL.Image.Image] = {}
+        self.images: Dict[str, Image.Image] = {}
 
     #Honestly, these aren't necessary, i'm just very lazy to type env.images a buncha times
     def __setitem__(self, key: str, value: Any) -> None:
@@ -49,7 +49,7 @@ class Open:
         
 
     def eval(self, env):
-        env[self.value.eval(env)] = PIL.Image.open(self.image.eval())
+        env[self.value.eval(env)] = Image.open(self.image.eval())
 
 
 class Resize:
@@ -66,17 +66,26 @@ class Resize:
 
 
 class Start:
-    def __init__(self, statements) -> None:
+    def __init__(self, statements: Tuple) -> None:
         self.statements = statements
 
-    def eval(self, env):
+    def eval(self, env: Env):
         for i in self.statements:
             i.eval(env)
 
 class Tuple:
-    def __init__(self, tup) -> None:
+    def __init__(self, tup: str) -> None:
         self.tuple = eval(tup)
 
 
-    def eval(self, env) -> Tuple:
+    def eval(self, env: Env) -> Tuple:
         return self.tuple
+
+class Invert:
+    def __init__(self, im: str):
+        self.im = im
+
+    def eval(self, env):
+        if not (x := env.get(self.im)):
+            raise NameError(f"{self.im} COULD NOT BE FOUND YOU LAXY BIINCH")
+        env[self.im] = ImageOps.invert(x)

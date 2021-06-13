@@ -1,6 +1,7 @@
 ?start: statement*
 statement: "OPEN"i string "AS"i NAME -> open_stmt
         |"RESIZE"i NAME ntuple -> resize_stmt
+        |"INVERT"i NAME -> invert_stmt
 string: /(["']).*?(?<!\\)\1/
 ntuple: /((.+,?)+)/
 %import common.WS
