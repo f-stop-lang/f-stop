@@ -53,7 +53,7 @@ class Open:
 
 
 class Resize:
-    def __init__(self, image, tup) -> None:
+    def __init__(self, image: str, tup) -> None:
         self.image = image
         self.tup = tup
 
@@ -73,12 +73,12 @@ class Start:
         for i in self.statements:
             i.eval(env)
 
-class Tuple:
+class Tuple_:
     def __init__(self, tup: str) -> None:
         self.tuple = eval(tup)
 
 
-    def eval(self, env: Env) -> Tuple:
+    def eval(self, env: Env):
         return self.tuple
 
 class Invert:
