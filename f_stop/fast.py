@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List
 
 from PIL import Image, ImageOps
 
@@ -66,14 +66,14 @@ class Resize:
 
 
 class Start:
-    def __init__(self, statements: Tuple) -> None:
+    def __init__(self, statements) -> None:
         self.statements = statements
 
     def eval(self, env: Env):
         for i in self.statements:
             i.eval(env)
 
-class Tuple_:
+class Tuple:
     def __init__(self, tup: str) -> None:
         self.tuple = eval(tup)
 
@@ -88,7 +88,7 @@ class Invert:
     def eval(self, env):
         if not (x := env.get(self.im)):
             raise NameError(f"{self.im} COULD NOT BE FOUND YOU LAXY BIINCH")
-        env[self.im] = ImageOps.invert(x)
+        env[self.im] = ImageOps.invert(x.convert('RGB'))
 
 class Solarize:
     def __init__(self, im, thres) -> None:
@@ -98,4 +98,17 @@ class Solarize:
     def eval(self, env: Env):
         if not (x := env.get(self.im)):
             raise NameError(f"{self.im} COULD NOT BE FOUND YOU LAXY BIINCH")
-        env[self.im] = ImageOps.solarize(x, self.thres)
+        env[self.im] = ImageOps.solarize(x.convert('RGB'), self.thres)
+
+
+class Crop:
+    def __init__(self, im, tup) -> None:
+        self.im = im
+        self.tup = tup
+
+    def eval(self, env):
+        if not (x := env.get(self.im)):
+            raise NameError(f"{self.im} COULD NOT BE FOUND YOU LAXY BIINCH")
+        if len(self.tup.eval(env)) != 4:
+            raise Exception("Expected a tuple of length 4.")
+        env[self.im] = x.crop(self.tup.eval(env))

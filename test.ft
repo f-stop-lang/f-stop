@@ -1,2 +1,4 @@
 OPEN "test.png" AS im
 RESIZE im (300, 300)
+SOLARIZE im
+CROP im (10, 10, 100, 100)

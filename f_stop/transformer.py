@@ -17,7 +17,7 @@ class FStopTransformer(Transformer):
         return String(s)
 
 
-    def start(self, *statements: Tuple) -> Start:
+    def start(self, *statements) -> Start:
         return Start(statements)
 
     def ntuple(self, tup) -> Tuple:
@@ -28,3 +28,6 @@ class FStopTransformer(Transformer):
 
     def solarize_stmt(self, im, threshold: int=128):
         return Solarize(im, threshold)
+
+    def crop_stmt(self, im, size):
+        return Crop(im, size)

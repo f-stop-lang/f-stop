@@ -11,6 +11,7 @@ if __name__ == '__main__':
     parsed = f_stop_parser.parse(text)
     print(parsed.pretty())
     env = Env()
-    x = FStopTransformer().transform(parsed).eval(env)
+    x = FStopTransformer().transform(parsed)
+    x.eval(env)
     assert "im" in env.images
-    assert env['im'].size == (300, 300)
+    env['im'].show(title="thing.png")

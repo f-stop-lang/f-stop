@@ -3,6 +3,7 @@ statement: "OPEN"i string "AS"i NAME -> open_stmt
         |"RESIZE"i NAME ntuple -> resize_stmt
         |"INVERT"i NAME -> invert_stmt
         |"SOLARIZE"i NAME FLOAT? -> solarize_stmt
+        |"CROP"i NAME ntuple -> crop_stmt
 string: /(["']).*?(?<!\\)\1/
 ntuple: /((.+,?)+)/
 %import common.WS
