@@ -98,7 +98,7 @@ class Solarize:
     def eval(self, env: Env):
         if not (x := env.get(self.im)):
             raise NameError(f"{self.im} COULD NOT BE FOUND YOU LAXY BIINCH")
-        env[self.im] = ImageOps.solarize(x.convert('RGB'), self.thres)
+        env[self.im] = ImageOps.solarize(x.convert('RGB'), self.thres.eval(env))
 
 
 class Crop:
@@ -112,3 +112,33 @@ class Crop:
         if len(self.tup.eval(env)) != 4:
             raise Exception("Expected a tuple of length 4.")
         env[self.im] = x.crop(self.tup.eval(env))
+
+class Number:
+    def __init__(self, value):
+        self.value = float(value)
+
+    def eval(self, env):
+        return self.value
+
+class Float:
+    def __init__(self, value) -> None:
+        self.value = float(value)
+
+    def eval(self, env):
+        return self.value
+
+
+class Posterize:
+    def __init__(self, im, bits) -> None:
+        self.im = im
+        self.bits = bits
+
+    def eval(self, env: Env):
+        print(type(self.bits.eval(env)))
+        bits = int(self.bits.eval(env))
+        print(type(bits))
+        if not bits >= 1 and bits <= 8:
+            raise Exception("BITS MUST BE AN INTEGer between 1 and 8")
+        if not (x := env.get(self.im)):
+            raise NameError(f"{self.im} COULD NOT BE FOUND YOU LAXY BIINCH")
+        env[self.im] = ImageOps.posterize(x.convert('RGB'), int(bits))

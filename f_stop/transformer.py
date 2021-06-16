@@ -26,8 +26,18 @@ class FStopTransformer(Transformer):
     def invert_stmt(self, var) -> Invert:
         return Invert(var)
 
-    def solarize_stmt(self, im, threshold: int=128):
+    def solarize_stmt(self, im, threshold: Number=Number(128)):
         return Solarize(im, threshold)
 
     def crop_stmt(self, im, size):
         return Crop(im, size)
+
+    def NUMBER(self, val):
+        return Number(val)
+
+    def posterize_stmt(self, im, bits):
+        return Posterize(im, bits)
+
+
+
+

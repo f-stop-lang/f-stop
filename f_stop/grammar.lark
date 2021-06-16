@@ -1,17 +1,25 @@
+
 ?start: statement*
+
+
 statement: "OPEN"i string "AS"i NAME -> open_stmt
         |"RESIZE"i NAME ntuple -> resize_stmt
         |"INVERT"i NAME -> invert_stmt
-        |"SOLARIZE"i NAME FLOAT? -> solarize_stmt
+        |"SOLARIZE"i NAME NUMBER? -> solarize_stmt
         |"CROP"i NAME ntuple -> crop_stmt
+        |"POSTERIZE"i NAME NUMBER -> posterize_stmt
 string: /(["']).*?(?<!\\)\1/
 ntuple: /((.+,?)+)/
+integer: /-?\d+/
 %import common.WS
 %ignore WS
 %import common.WS_INLINE
 %ignore WS_INLINE
 %import common.CNAME -> NAME
-%import common.NUMBER -> NUMBER
 %import common.NEWLINE -> NEWLINE
+%import common.CPP_COMMENT -> SINGLE_COMMENT
+%ignore SINGLE_COMMENT
 %ignore NEWLINE
-%import common.FLOAT -> FLOAT
+%import common.NUMBER -> NUMBER
+%import common.INT -> INTEGER
+

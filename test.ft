@@ -1,4 +1,5 @@
+//test comment
 OPEN "test.png" AS im
 RESIZE im (300, 300)
-SOLARIZE im
-CROP im (10, 10, 100, 100)
+SOLARIZE im 256
+POSTERIZE im 10
