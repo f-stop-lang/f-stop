@@ -120,9 +120,9 @@ class Number:
     def eval(self, env):
         return self.value
 
-class Float:
+class Integer:
     def __init__(self, value) -> None:
-        self.value = float(value)
+        self.value = int(value)
 
     def eval(self, env):
         return self.value
@@ -136,9 +136,8 @@ class Posterize:
     def eval(self, env: Env):
         print(type(self.bits.eval(env)))
         bits = int(self.bits.eval(env))
-        print(type(bits))
-        if not bits >= 1 and bits <= 8:
-            raise Exception("BITS MUST BE AN INTEGer between 1 and 8")
+        if bits < 1 or bits > 8:
+            raise Exception("Bits must be and integer between 1 and 8")
         if not (x := env.get(self.im)):
             raise NameError(f"{self.im} COULD NOT BE FOUND YOU LAXY BIINCH")
         env[self.im] = ImageOps.posterize(x.convert('RGB'), int(bits))

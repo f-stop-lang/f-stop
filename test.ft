@@ -1,5 +1,4 @@
-//test comment
+#test comment
 OPEN "test.png" AS im
 RESIZE im (300, 300)
-SOLARIZE im 256
-POSTERIZE im 10
+POSTERIZE im 1

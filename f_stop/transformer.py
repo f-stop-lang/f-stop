@@ -38,6 +38,5 @@ class FStopTransformer(Transformer):
     def posterize_stmt(self, im, bits):
         return Posterize(im, bits)
 
-
-
-
+    def INTEGER(self, val):
+        return Integer(val)

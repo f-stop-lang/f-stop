@@ -7,7 +7,7 @@ statement: "OPEN"i string "AS"i NAME -> open_stmt
         |"INVERT"i NAME -> invert_stmt
         |"SOLARIZE"i NAME NUMBER? -> solarize_stmt
         |"CROP"i NAME ntuple -> crop_stmt
-        |"POSTERIZE"i NAME NUMBER -> posterize_stmt
+        |"POSTERIZE"i NAME INTEGER -> posterize_stmt
 string: /(["']).*?(?<!\\)\1/
 ntuple: /((.+,?)+)/
 integer: /-?\d+/
@@ -17,7 +17,7 @@ integer: /-?\d+/
 %ignore WS_INLINE
 %import common.CNAME -> NAME
 %import common.NEWLINE -> NEWLINE
-%import common.CPP_COMMENT -> SINGLE_COMMENT
+%import common.SH_COMMENT -> SINGLE_COMMENT
 %ignore SINGLE_COMMENT
 %ignore NEWLINE
 %import common.NUMBER -> NUMBER
