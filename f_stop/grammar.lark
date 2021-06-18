@@ -8,7 +8,7 @@ statement: "OPEN"i string "AS"i NAME -> open_stmt
         |"SOLARIZE"i NAME NUMBER? -> solarize_stmt
         |"CROP"i NAME ntuple -> crop_stmt
         |"POSTERIZE"i NAME INTEGER -> posterize_stmt
-string: /(["']).*?(?<!\\)\1/
+string: /("[^"\\]*(\\.[^"\\]*)*"|'[^'\\]*(\\.[^'\\]*)*')/
 ntuple: /((.+,?)+)/
 integer: /-?\d+/
 %import common.WS
