@@ -1,8 +1,10 @@
 from lark import Transformer, v_args
 
-from .fast import *  #type: ignore
+from .fast import *  # type: ignore
 
 from typing import List
+
+
 @v_args(inline=True)
 class FStopTransformer(Transformer):
     def open_stmt(self, image: str, name: str) -> Open:
@@ -11,11 +13,9 @@ class FStopTransformer(Transformer):
     def resize_stmt(self, image: str, tup: str) -> Resize:
         return Resize(image, tup)
 
-    
     def string(self, s: str) -> String:
         val = str(s).strip('"').strip("'")
         return String(s)
-
 
     def start(self, *statements) -> Start:
         return Start(statements)
@@ -26,7 +26,7 @@ class FStopTransformer(Transformer):
     def invert_stmt(self, var) -> Invert:
         return Invert(var)
 
-    def solarize_stmt(self, im, threshold: Number=Number(128)):
+    def solarize_stmt(self, im, threshold: Number = Number(128)):
         return Solarize(im, threshold)
 
     def crop_stmt(self, im, size):
@@ -43,6 +43,6 @@ class FStopTransformer(Transformer):
 
     def flip_stmt(self, im):
         return Flip(im=im)
-    
+
     def grayscale_stmt(self, im):
         return Grayscale(im=im)
