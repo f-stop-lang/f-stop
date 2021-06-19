@@ -8,6 +8,8 @@ statement: "OPEN"i string "AS"i NAME -> open_stmt
         |"SOLARIZE"i NAME NUMBER? -> solarize_stmt
         |"CROP"i NAME ntuple -> crop_stmt
         |"POSTERIZE"i NAME INTEGER -> posterize_stmt
+        | "FLIP"i NAME -> flip_stmt
+        | "GRAYSCALE"i NAME -> grayscale_stmt
 string: /("[^"\\]*(\\.[^"\\]*)*"|'[^'\\]*(\\.[^'\\]*)*')/
 ntuple: /((.+,?)+)/
 integer: /-?\d+/

@@ -1,4 +1,6 @@
 #test comment
 OPEN "test.png" AS im
 RESIZE im (300, 300)
-POSTERIZE im 1
+#POSTERIZE im 1
+FLIP im
+GRAYSCALE im

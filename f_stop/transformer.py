@@ -40,3 +40,9 @@ class FStopTransformer(Transformer):
 
     def INTEGER(self, val):
         return Integer(val)
+
+    def flip_stmt(self, im):
+        return Flip(im=im)
+    
+    def grayscale_stmt(self, im):
+        return Grayscale(im=im)

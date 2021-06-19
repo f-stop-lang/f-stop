@@ -141,3 +141,21 @@ class Posterize:
         if not (x := env.get(self.im)):
             raise NameError(f"{self.im} COULD NOT BE FOUND YOU LAXY BIINCH")
         env[self.im] = ImageOps.posterize(x.convert('RGB'), int(bits))
+
+class Flip:
+    def __init__(self, im):
+        self.im = im
+    def eval(self, env):
+        if not (x := env.get(self.im)):
+            raise NameError(f"{self.im} COULD NOT BE FOUND YOU LAXY BIINCH")
+        env[self.im] = ImageOps.flip(x.convert('RGB'))
+
+class Grayscale:
+    def __init__(self, im):
+        self.im = im
+    def eval(self, env):
+        if not (x := env.get(self.im)):
+            raise NameError(f"{self.im} COULD NOT BE FOUND YOU LAXY BIINCH")
+        env[self.im] = ImageOps.grayscale(x.convert('RGB'))
+
+
