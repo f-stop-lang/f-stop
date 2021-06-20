@@ -11,7 +11,7 @@ statement: "OPEN"i string "AS"i NAME -> open_stmt
         | "FLIP"i NAME -> flip_stmt
         | "GRAYSCALE"i NAME -> grayscale_stmt
 string: /("[^"\\]*(\\.[^"\\]*)*"|'[^'\\]*(\\.[^'\\]*)*')/
-ntuple: /((.+,?)+)/
+ntuple: /\(.+,?\)/
 integer: /-?\d+/
 %import common.WS
 %ignore WS
@@ -19,7 +19,9 @@ integer: /-?\d+/
 %ignore WS_INLINE
 %import common.CNAME -> NAME
 %import common.NEWLINE -> NEWLINE
-%import common.SH_COMMENT -> SINGLE_COMMENT
+%import common.CPP_COMMENT -> SINGLE_COMMENT
+%import common.C_COMMENT -> MULTILINE_COMMENT
+%ignore MULTILINE_COMMENT
 %ignore SINGLE_COMMENT
 %ignore NEWLINE
 %import common.NUMBER -> NUMBER

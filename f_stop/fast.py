@@ -12,7 +12,7 @@ class String:
         self.value = value.strip("'").strip('"')
 
     def __repr__(self) -> str:
-        # Backwards compatibility for Python <3.5
+
         return f'<String "{self.value}">'
 
     def eval(self, env=None) -> str:
