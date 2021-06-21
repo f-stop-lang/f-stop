@@ -1,7 +1,7 @@
 from f_stop.transformer import FStopTransformer
 from f_stop.fast import Env
 from lark import Lark
-
+from PIL import Image
 
 
 if __name__ == '__main__':
@@ -12,7 +12,9 @@ if __name__ == '__main__':
     parsed = f_stop_parser.parse(text)
     print(parsed.pretty())
     env = Env()
+    env['img'] = Image.new('RGBA', (300, 300), (255, 0, 0))
     x = FStopTransformer().transform(parsed)
     x.eval(env)
     assert 'im' in env.images
-    env['im'].show('thing.png')
+    env['img'].show('thing.png')
+
