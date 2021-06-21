@@ -5,7 +5,7 @@ from lark import Lark
 
 
 if __name__ == '__main__':
-    with open('test.ft') as ft:
+    with open('test.fstop') as ft:
         text = ft.read()
     f_stop_parser = Lark.open(
         '../f_stop/grammar.lark', rel_to=__file__)

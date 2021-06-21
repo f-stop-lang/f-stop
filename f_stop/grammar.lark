@@ -29,6 +29,6 @@ color: color_tuple | color_int
 %ignore MULTILINE_COMMENT
 %ignore SINGLE_COMMENT
 %ignore NEWLINE
-%import common.NUMBER -> NUMBER
+%import common.SIGNED_NUMBER -> NUMBER
 %import common.INT -> INTEGER
 
