@@ -17,7 +17,7 @@ integer: /-?\d+/
 ntuple: "(" (NUMBER ",")* NUMBER ")"
 color_tuple: "COLOR" ntuple
 color_int: "COLOR" INTEGER
-color: color_tuple | color_int
+?color: color_tuple | color_int
 %import common.WS
 %ignore WS
 %import common.WS_INLINE

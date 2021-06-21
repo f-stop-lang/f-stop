@@ -65,6 +65,8 @@ class Resize:
         env[self.image] = x.resize(tuple(int(i) for i in self.tup.eval(env)))
 
 
+
+
 class Start:
     def __init__(self, statements) -> None:
         self.statements = statements
@@ -81,6 +83,9 @@ class Tuple:
 
     def eval(self, env: Env=None):
         return tuple(i.eval(env) for i in self.tuple)
+
+    def __int__(self):
+        return tuple(i.__int__() for i in self.tuple)
 
 
 class Invert:
@@ -174,7 +179,7 @@ class Color:
         self.val = val
 
     def eval(self, env=None):
-        print('hai')
+        return self.val
 
 class Arc:
     def __init__(self, im, xy, start, end, fill=None, width=0):
@@ -190,7 +195,15 @@ class Arc:
         if not x:
             raise Exception(f"{x} could not be found :C")
         draw = ImageDraw.Draw(x.convert('RGBA'), 'RGBA')
-        draw.arc(self.xy.eval(env), self.start.eval(env), self.end.eval(env), self.fill.eval() if self.fill else None, int(self.width.eval())) 
+        print(type(self.xy), self.xy.eval(env))
+        print(type(self.start), self.start.eval(env))
+        print(type(self.end), self.end.eval(env))
+        print(type(self.fill), self.fill)
+        print(type(self.width), self.width.eval(env))
+        xy = tuple(int(i) for i in self.xy.eval(env))
+        fill = tuple(int(i) for i in self.fill) if self.fill else None
+        print(fill)
+        draw.arc(xy, int(self.start.eval(env)), self.end.eval(env).__int__(), fill, int(self.width.eval())) # type: ignore
 
 
 class Rectangle:
