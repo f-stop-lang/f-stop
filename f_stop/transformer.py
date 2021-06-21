@@ -20,7 +20,7 @@ class FStopTransformer(Transformer):
     def start(self, *statements) -> Start:
         return Start(statements)
 
-    def ntuple(self, tup) -> Tuple:
+    def ntuple(self, *tup) -> Tuple:
         return Tuple(tup)
 
     def invert_stmt(self, var) -> Invert:
@@ -46,3 +46,15 @@ class FStopTransformer(Transformer):
 
     def grayscale_stmt(self, im):
         return Grayscale(im=im)
+
+    def arc_stmt(self, im, xy, start, end, fill=None, width=Number(5)):
+        return Arc(im, xy, start, end, fill, width)
+
+    def color(self, thing):
+        return Color(thing)
+
+    def color_tuple(self, thing):
+        return thing.eval()
+
+    def color_int(self, int):
+        return int.eval()

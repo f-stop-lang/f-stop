@@ -1,6 +1,6 @@
 from typing import Any, Dict, List
 
-from PIL import Image, ImageOps
+from PIL import Image, ImageOps, ImageDraw
 
 
 class String:
@@ -62,7 +62,7 @@ class Resize:
     def eval(self, env):
         if not (x := env.images.get(self.image)):
             raise Exception(f'{self.image} COULD NOT BE FOUND YOU DUMBO')
-        env[self.image] = x.resize(self.tup.eval(env))
+        env[self.image] = x.resize(tuple(int(i) for i in self.tup.eval(env)))
 
 
 class Start:
@@ -75,11 +75,12 @@ class Start:
 
 
 class Tuple:
-    def __init__(self, tup: str) -> None:
-        self.tuple = eval(tup)
+    def __init__(self, tup) -> None:
+        self.tuple = tup
+        #print(tup)
 
-    def eval(self, env: Env):
-        return self.tuple
+    def eval(self, env: Env=None):
+        return tuple(i.eval(env) for i in self.tuple)
 
 
 class Invert:
@@ -122,7 +123,7 @@ class Number:
     def __init__(self, value):
         self.value = float(value)
 
-    def eval(self, env):
+    def eval(self, env=None):
         return self.value
 
 
@@ -130,7 +131,7 @@ class Integer:
     def __init__(self, value) -> None:
         self.value = int(value)
 
-    def eval(self, env):
+    def eval(self, env=None):
         return self.value
 
 
@@ -167,3 +168,30 @@ class Grayscale:
         if not (x := env.get(self.im)):
             raise NameError(f'{self.im} COULD NOT BE FOUND YOU LAXY BIINCH')
         env[self.im] = ImageOps.grayscale(x.convert('RGB'))
+
+class Color:
+    def __init__(self, val) -> None:
+        self.val = val
+
+    def eval(self, env=None):
+        print('hai')
+
+class Arc:
+    def __init__(self, im, xy, start, end, fill=None, width=0):
+        self.im = im
+        self.xy = xy
+        self.start = start
+        self.end = end
+        self.fill = fill
+        self.width = width
+
+    def eval(self, env):
+        x = env.get(self.im)
+        if not x:
+            raise Exception(f"{x} could not be found :C")
+        draw = ImageDraw.Draw(x.convert('RGBA'), 'RGBA')
+        draw.arc(self.xy.eval(env), self.start.eval(env), self.end.eval(env), self.fill.eval() if self.fill else None, int(self.width.eval())) 
+
+
+class Rectangle:
+    ...

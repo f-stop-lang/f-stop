@@ -1,6 +1,0 @@
-
-OPEN "test.png" AS im //opening the image
-RESIZE im (300, 300) //stuff
-//POSTERIZE im 1
-FLIP im //Flip the image
-GRAYSCALE im //Make the image Grayscale
