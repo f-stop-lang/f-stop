@@ -1,4 +1,5 @@
-from typing import Any, Dict, List
+from abc import ABC
+from typing import Any, Dict, List, Optional
 
 from PIL import Image, ImageOps, ImageDraw
 
@@ -54,7 +55,12 @@ class Open:
         env[self.value.eval(env)] = Image.open(self.image.eval())
 
 
-class Resize:
+class Token(ABC):
+    def eval(self, env: Optional[Env] = None) -> Any:
+        raise NotImplementedError
+        
+        
+class Resize(Token):
     def __init__(self, image: str, tup) -> None:
         self.image = image
         self.tup = tup
@@ -65,7 +71,7 @@ class Resize:
         env[self.image] = x.resize(tuple(int(i) for i in self.tup.eval(env)))
 
 
-class Start:
+class Start(Token):
     def __init__(self, statements) -> None:
         self.statements = statements
 
@@ -74,7 +80,7 @@ class Start:
             i.eval(env)
 
 
-class Tuple:
+class Tuple(Token):
     def __init__(self, tup) -> None:
         self.tuple = tup
         #print(tup)
@@ -83,7 +89,7 @@ class Tuple:
         return tuple(i.eval(env) for i in self.tuple)
 
 
-class Invert:
+class Invert(Token):
     def __init__(self, im: str):
         self.im = im
 
@@ -93,7 +99,7 @@ class Invert:
         env[self.im] = ImageOps.invert(x.convert('RGB'))
 
 
-class Solarize:
+class Solarize(Token):
     def __init__(self, im, thres) -> None:
         self.im = im
         self.thres = thres
@@ -106,7 +112,7 @@ class Solarize:
         )
 
 
-class Crop:
+class Crop(Token):
     def __init__(self, im, tup) -> None:
         self.im = im
         self.tup = tup
@@ -119,7 +125,7 @@ class Crop:
         env[self.im] = x.crop(self.tup.eval(env))
 
 
-class Number:
+class Number(Token):
     def __init__(self, value):
         self.value = float(value)
 
@@ -127,7 +133,7 @@ class Number:
         return self.value
 
 
-class Integer:
+class Integer(Token):
     def __init__(self, value) -> None:
         self.value = int(value)
 
@@ -135,7 +141,7 @@ class Integer:
         return self.value
 
 
-class Posterize:
+class Posterize(Token):
     def __init__(self, im, bits) -> None:
         self.im = im
         self.bits = bits
@@ -150,7 +156,7 @@ class Posterize:
         env[self.im] = ImageOps.posterize(x.convert('RGB'), int(bits))
 
 
-class Flip:
+class Flip(Token):
     def __init__(self, im):
         self.im = im
 
@@ -160,7 +166,7 @@ class Flip:
         env[self.im] = ImageOps.flip(x.convert('RGB'))
 
 
-class Grayscale:
+class Grayscale(Token):
     def __init__(self, im):
         self.im = im
 
@@ -169,14 +175,14 @@ class Grayscale:
             raise NameError(f'{self.im} COULD NOT BE FOUND YOU LAXY BIINCH')
         env[self.im] = ImageOps.grayscale(x.convert('RGB'))
 
-class Color:
+class Color(Token):
     def __init__(self, val) -> None:
         self.val = val
 
     def eval(self, env=None):
         print('hai')
 
-class Arc:
+class Arc(Token):
     def __init__(self, im, xy, start, end, fill=None, width=0):
         self.im = im
         self.xy = xy
@@ -193,5 +199,5 @@ class Arc:
         draw.arc(self.xy.eval(env), self.start.eval(env), self.end.eval(env), self.fill.eval() if self.fill else None, int(self.width.eval())) 
 
 
-class Rectangle:
+class Rectangle(Token):
     ...
