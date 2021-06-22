@@ -1,3 +1,2 @@
-OPEN "test.png" AS im
-RESIZE im (300, 300)
-ARC img (50, 50, 100, 100) 5 -5 COLOR (0, 0, 0) 100
+OPEN 'test.png' AS im
+ARC img (50, 50, 100, 100) 100 -5 COLOR (255, 255, 255) 1

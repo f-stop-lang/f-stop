@@ -198,17 +198,13 @@ class Arc(Token):
         x = env.get(self.im)
         if not x:
             raise Exception(f"{x} could not be found :C")
-        draw = ImageDraw.Draw(x.convert('RGBA'), 'RGBA')
-        print(type(self.xy), self.xy.eval(env))
-        print(type(self.start), self.start.eval(env))
-        print(type(self.end), self.end.eval(env))
-        print(type(self.fill), self.fill)
-        print(type(self.width), self.width.eval(env))
+        x =x.convert('RGBA')
+        draw = ImageDraw.Draw(x)
         xy = tuple(int(i) for i in self.xy.eval(env))
         fill = tuple(int(i) for i in self.fill) if self.fill else None
         print(fill)
-        draw.arc(xy, int(self.start.eval(env)), self.end.eval(env).__int__(), fill, int(self.width.eval())) # type: ignore
-
+        draw.arc(xy, int(self.start.eval(env)), int(self.end.eval(env)), fill, int(self.width.eval())) # type: ignore
+        env[self.im] = x
 
 class Rectangle(Token):
     ...

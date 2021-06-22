@@ -47,7 +47,7 @@ class FStopTransformer(Transformer):
     def grayscale_stmt(self, im):
         return Grayscale(im=im)
 
-    def arc_stmt(self, im, xy, start, end, fill=None, width=Number(5)):
+    def arc_stmt(self, im, xy, start, end, fill, width=Number(5)):
         return Arc(im, xy, start, end, fill, width)
 
     def color(self, thing):

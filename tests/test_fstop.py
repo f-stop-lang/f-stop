@@ -1,7 +1,7 @@
 from f_stop.transformer import FStopTransformer
 from f_stop.fast import Env
 from lark import Lark
-from PIL import Image
+from PIL import Image, ImageDraw
 
 
 if __name__ == '__main__':
@@ -15,6 +15,7 @@ if __name__ == '__main__':
     env['img'] = Image.new('RGBA', (300, 300), (255, 0, 0))
     x = FStopTransformer().transform(parsed)
     x.eval(env)
-    assert 'im' in env.images
-    env['img'].show('thing.png')
-
+    assert 'img' in env.images
+    img = env['img']
+    ##draw.arc((50, 50, 100, 100), 5, -5, (255, 255, 255), 100)
+    img.show()
