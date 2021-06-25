@@ -12,12 +12,20 @@ statement: "OPEN"i string "AS"i NAME -> open_stmt
         | "FLIP"i NAME -> flip_stmt
         | "GRAYSCALE"i NAME -> grayscale_stmt
         | "ARC"i NAME ntuple NUMBER NUMBER color? INTEGER? -> arc_stmt
+        | "RECTANGLE"i NAME ntuple color? color? INTEGER? -> rectangle_stmt
+        | "LINE"i NAME ntuple color? INTEGER? -> line_stmt
+        | "TEXT"i NAME ntuple string font? color? -> text_stmt
+        | "BLEND"i NAME NAME NUMBER "AS"i NAME -> blend_stmt
+        | "CONVERT"i NAME string -> convert_stmt
+        | "OPEN" "URL" string "AS" NAME -> url_stmt
 string: /("[^"\\]*(\\.[^"\\]*)*"|'[^'\\]*(\\.[^'\\]*)*')/
 integer: /-?\d+/
 ntuple: "(" (NUMBER ",")* NUMBER ")"
-color_tuple: "COLOR" ntuple
-color_int: "COLOR" INTEGER
+color_tuple: "COLOR"i ntuple
+color_int: "COLOR"i INTEGER
+color_string: "COLOR"i string
 ?color: color_tuple | color_int
+font: "FONT" "(" string "," INTEGER? ")"
 %import common.WS
 %ignore WS
 %import common.WS_INLINE

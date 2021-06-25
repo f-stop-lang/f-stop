@@ -1,3 +1,4 @@
+from PIL.Image import new
 from lark import Transformer, v_args
 
 from .fast import *  # type: ignore
@@ -50,6 +51,9 @@ class FStopTransformer(Transformer):
     def arc_stmt(self, im, xy, start, end, fill, width=Number(5)):
         return Arc(im, xy, start, end, fill, width)
 
+    def font(self, font, size=Number(10)):
+        return Font(font, size)
+
     def color(self, thing):
         return Color(thing)
 
@@ -58,3 +62,21 @@ class FStopTransformer(Transformer):
 
     def color_int(self, int):
         return int.eval()
+
+    def rectangle_stmt(self, im, xy, fill=None, outline=None, width=Number(1)):
+        return Rectangle(im, xy, fill, outline, width)
+
+    def line_stmt(self, im, xy, fill=None, width=Number(1)):
+        return Line(im, xy, fill, width)
+
+    def text_stmt(self, im, xy, text, font=None, fill=None):
+        return Text(im, xy, text, font, fill)
+
+    def blend_stmt(self, im1, im2, alpha, new_im):
+        return Blend(im1, im2, alpha, new_im)
+
+    def convert_stmt(self, im, mode):
+        return Convert(im, mode)
+
+    def url_stmt(self, url, name):
+        return UrlOpen(url, name)

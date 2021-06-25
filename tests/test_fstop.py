@@ -15,7 +15,7 @@ if __name__ == '__main__':
     env['img'] = Image.new('RGBA', (300, 300), (255, 0, 0))
     x = FStopTransformer().transform(parsed)
     x.eval(env)
-    assert 'img' in env.images
-    img = env['img']
-    ##draw.arc((50, 50, 100, 100), 5, -5, (255, 255, 255), 100)
-    img.show()
+    print(env['im'].mode)
+    print(env['sus'])
+    img = env['sus']
+    img.save('sus.png')

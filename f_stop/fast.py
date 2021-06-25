@@ -1,7 +1,10 @@
 from abc import ABC
-from typing import Any, Dict, List, Optional
+from io import BytesIO
+import re
+from typing import Any, Dict, Optional
 
-from PIL import Image, ImageOps, ImageDraw
+from PIL import Image, ImageOps, ImageDraw, ImageFont
+import urllib.request as requests
 
 
 class String:
@@ -207,4 +210,102 @@ class Arc(Token):
         env[self.im] = x
 
 class Rectangle(Token):
-    ...
+    def __init__(self, image, xy, fill=None, outline=None, width=1) -> None:
+        self.im = image
+        self.xy = xy
+        self.fill = fill
+        self.outline = outline
+        self.width = width
+
+    def eval(self, env: Env) -> Any:
+        x = env.get(self.im)
+        if not x:
+            raise Exception(f"{x} could not be found :C")
+        draw = ImageDraw.Draw(x)
+        xy = tuple(map(int, self.xy.eval()))
+        fill = tuple(map(int, self.fill)) # type: ignore
+        outline = tuple(map(int, self.outline)) # type: ignore
+        draw.rectangle(xy, fill, outline, int(self.width.eval()),)
+        env[self.im] = x
+
+class Line(Token):
+    def __init__(self, im, xy, color=None, width=Number(1)) -> None:
+        self.im = im
+        self.xy = xy
+        self.color=color
+        self.width=width
+
+    def eval(self, env):
+        x = env.get(self.im)
+        if not x:
+            raise Exception(f"{x} could not be found :C")
+        draw = ImageDraw.Draw(x)
+        xy = tuple(map(int, self.xy.eval()))
+        fill = tuple(map(int, self.color)) # type: ignore
+        draw.line(xy, fill, int(self.width.eval()),)
+        env[self.im] = x
+
+class Font(Token):
+    def __init__(self, font, size) -> None:
+        self.font = font
+        self.size = size
+
+    def eval(self, env=None): 
+        return ImageFont.truetype(font=self.font.eval(), size=self.size.eval())
+
+class Text(Token):
+    def __init__(self, im, xy, text, font=None, color=None) -> None:
+        self.im = im
+        self.xy = xy
+        self.text = text
+        self.font = font
+        self.color = color
+
+    def eval(self, env: ...) -> Any:
+        x = env.get(self.im)
+        if not x:
+            raise Exception(f"{x} could not be found :C")
+        draw = ImageDraw.Draw(x)
+        xy = tuple(map(int, self.xy.eval()))
+        fill = tuple(map(int, self.color)) # type: ignore
+        draw.text(xy, self.text.eval(), fill, self.font.eval())
+        env[self.im] = x
+
+class Blend(Token):
+    def __init__(self, im1, im2, alpha, new_im):
+        self.im1 = im1
+        self.im2 = im2
+        self.alpha = alpha
+        self.new_im = new_im
+
+    def eval(self, env):
+        x, y = env.get(self.im1), env.get(self.im2)
+        if not x:
+            raise Exception(f"{x} could not be found :C")
+        if not y:
+            raise Exception(f"{y} could not be found :C")
+        z = Image.blend(x, y, self.alpha.eval())
+        env[self.new_im] = z
+
+class Convert(Token):
+    def __init__(self, im, mode):
+        self.im = im
+        self.mode = mode
+        
+    def eval(self, env):
+        x = env.get(self.im)
+        if not x:
+            raise Exception(f"{x} could not be found :C")
+        env[self.im] = x.convert(self.mode.eval())
+
+class UrlOpen(Token):
+    def __init__(self, url, name):
+        self.url = url
+        self.name = name
+
+    def eval(self, env):
+        if not re.match(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*(),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', self.url.eval()):
+            raise Exception('Not a valid URL >:(.')
+        req = requests.Request(self.url.eval(),headers={'User-Agent': 'Mozilla/5.0 (X11; U; Linux i686) Gecko/20071127 Firefox/2.0.0.11'})
+        resp = requests.urlopen(req)
+        env[self.name] = Image.open(BytesIO(resp.read()))
