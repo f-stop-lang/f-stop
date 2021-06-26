@@ -80,3 +80,12 @@ class FStopTransformer(Transformer):
 
     def url_stmt(self, url, name):
         return UrlOpen(url, name)
+
+    def ellipse_stmt(self, im, xy, fill=None, outline=None, width=Integer(1)):
+        return Ellipse(im, xy, fill, outline, width)
+
+    def save_stmt(self, im, filename):
+        return Save(im, filename)
+
+    def close_stmt(self, im):
+        return Close(im)

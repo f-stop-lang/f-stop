@@ -17,7 +17,10 @@ statement: "OPEN"i string "AS"i NAME -> open_stmt
         | "TEXT"i NAME ntuple string font? color? -> text_stmt
         | "BLEND"i NAME NAME NUMBER "AS"i NAME -> blend_stmt
         | "CONVERT"i NAME string -> convert_stmt
-        | "OPEN" "URL" string "AS" NAME -> url_stmt
+        | "OPEN"i "URL"i string "AS"i NAME -> url_stmt
+        | "ELLIPSE" NAME ntuple color? color? INTEGER? -> ellipse_stmt
+        | "SAVE" NAME string -> save_stmt
+        | "CLOSE" NAME -> close_stmt
 string: /("[^"\\]*(\\.[^"\\]*)*"|'[^'\\]*(\\.[^'\\]*)*')/
 integer: /-?\d+/
 ntuple: "(" (NUMBER ",")* NUMBER ")"

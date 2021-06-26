@@ -15,7 +15,4 @@ if __name__ == '__main__':
     env['img'] = Image.new('RGBA', (300, 300), (255, 0, 0))
     x = FStopTransformer().transform(parsed)
     x.eval(env)
-    print(env['im'].mode)
-    print(env['sus'])
-    img = env['sus']
-    img.save('sus.png')
+

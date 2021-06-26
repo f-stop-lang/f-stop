@@ -309,3 +309,44 @@ class UrlOpen(Token):
         req = requests.Request(self.url.eval(),headers={'User-Agent': 'Mozilla/5.0 (X11; U; Linux i686) Gecko/20071127 Firefox/2.0.0.11'})
         resp = requests.urlopen(req)
         env[self.name] = Image.open(BytesIO(resp.read()))
+
+class Ellipse(Token):
+    def __init__(self, im, xy, fill, outline, width=Number(1)) -> None:
+        self.im = im
+        self.xy = xy
+        self.fill = fill
+        self.outline = outline
+        self.width=width
+
+
+    def eval(self, env):
+        x = env.get(self.im)
+        if not x:
+            raise Exception(f"{x} could not be found :C")
+        draw = ImageDraw.Draw(x)
+        xy = tuple(map(int, self.xy.eval()))
+        fill = tuple(map(int, self.fill)) # type: ignore
+        outline = tuple(map(int, self.outline))
+        draw.ellipse(xy, fill, outline, width=int(self.width.eval()))
+        env[self.im] = x
+
+class Save(Token):
+    def __init__(self, im, filename) -> None:
+        self.im = im
+        self.filename = filename
+
+    def eval(self, env):
+        x = env.get(self.im)
+        if not x:
+            raise Exception(f"{x} could not be found :C")
+        x.save(self.filename.eval())
+
+class Close(Token):
+    def __init__(self, im):
+        self.im = im
+
+    def eval(self, env):
+        x = env.get(self.im)
+        if not x:
+            raise Exception(f"{self.im} could not be found :C")
+        return x.close()
