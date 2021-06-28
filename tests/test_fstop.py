@@ -8,7 +8,7 @@ if __name__ == '__main__':
     with open('test.fstop') as ft:
         text = ft.read()
     f_stop_parser = Lark.open(
-        '../f_stop/grammar.lark', rel_to=__file__, parser='lalr')
+        '../f_stop/grammar.lark', rel_to=__file__)
     parsed = f_stop_parser.parse(text)
     print(parsed.pretty())
     env = Env()
