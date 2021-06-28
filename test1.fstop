@@ -1,4 +1,5 @@
+OPEN 'test.png' AS im
 ITER im AS i { 
 INVERT i 
-CONVERT i "RGB"
 }
+SAVE im "iter.gif"

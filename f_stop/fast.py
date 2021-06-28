@@ -3,7 +3,7 @@ from io import BytesIO
 import re
 from typing import Any, Dict, Optional
 
-from PIL import Image, ImageOps, ImageDraw, ImageFont
+from PIL import Image, ImageOps, ImageDraw, ImageFont, ImageSequence
 import urllib.request as requests
 
 
@@ -309,6 +309,7 @@ class UrlOpen(Token):
         req = requests.Request(self.url.eval(),headers={'User-Agent': 'Mozilla/5.0 (X11; U; Linux i686) Gecko/20071127 Firefox/2.0.0.11'})
         resp = requests.urlopen(req)
         env[self.name] = Image.open(BytesIO(resp.read()))
+        print(env[self.name], self.name)
 
 class Ellipse(Token):
     def __init__(self, im, xy, fill, outline, width=Number(1)) -> None:
@@ -336,9 +337,11 @@ class Save(Token):
         self.filename = filename
 
     def eval(self, env):
-        x = env.get(self.im)
+        x: Image.Image = env.get(self.im)
         if not x:
             raise Exception(f"{self.im} could not be found :C")
+        if x.format == "GIF":
+            x.save(self.filename.eval(), x.format, loop=0, save_all=True)
         x.save(self.filename.eval())
 
 class Close(Token):
@@ -350,3 +353,25 @@ class Close(Token):
         if not x:
             raise Exception(f"{self.im} could not be found :C")
         return x.close()
+
+class Iterate(Token):
+    def __init__(self, image, name, statements) -> None:
+        self.image = image
+        self.name = name
+        self.statements = statements
+
+    def eval(self, env):
+        x = env.get(self.image)
+        if not x:
+            raise Exception(f"{self.image} could not be found :C")
+
+        for i in ImageSequence.Iterator(x):
+            env[self.name] = i
+            print(env.images.keys())
+            for statement in self.statements:
+                statement.eval(env)
+
+        try:
+            del env[self.name]
+        except KeyError:
+            pass

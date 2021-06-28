@@ -89,3 +89,6 @@ class FStopTransformer(Transformer):
 
     def close_stmt(self, im):
         return Close(im)
+
+    def iter_stmt(self, im, name, *statements):
+        return Iterate(im, name, statements)
