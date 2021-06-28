@@ -1,0 +1,4 @@
+ITER im AS i { 
+INVERT i 
+CONVERT i "RGB"
+}

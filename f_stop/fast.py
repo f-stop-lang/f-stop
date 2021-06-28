@@ -200,7 +200,7 @@ class Arc(Token):
     def eval(self, env):
         x = env.get(self.im)
         if not x:
-            raise Exception(f"{x} could not be found :C")
+            raise Exception(f"{self.im} could not be found :C")
         x =x.convert('RGBA')
         draw = ImageDraw.Draw(x)
         xy = tuple(int(i) for i in self.xy.eval(env))
@@ -220,7 +220,7 @@ class Rectangle(Token):
     def eval(self, env: Env) -> Any:
         x = env.get(self.im)
         if not x:
-            raise Exception(f"{x} could not be found :C")
+            raise Exception(f"{self.im} could not be found :C")
         draw = ImageDraw.Draw(x)
         xy = tuple(map(int, self.xy.eval()))
         fill = tuple(map(int, self.fill)) # type: ignore
@@ -238,7 +238,7 @@ class Line(Token):
     def eval(self, env):
         x = env.get(self.im)
         if not x:
-            raise Exception(f"{x} could not be found :C")
+            raise Exception(f"{self.im} could not be found :C")
         draw = ImageDraw.Draw(x)
         xy = tuple(map(int, self.xy.eval()))
         fill = tuple(map(int, self.color)) # type: ignore
@@ -264,7 +264,7 @@ class Text(Token):
     def eval(self, env: ...) -> Any:
         x = env.get(self.im)
         if not x:
-            raise Exception(f"{x} could not be found :C")
+            raise Exception(f"{self.im} could not be found :C")
         draw = ImageDraw.Draw(x)
         xy = tuple(map(int, self.xy.eval()))
         fill = tuple(map(int, self.color)) # type: ignore
@@ -281,7 +281,7 @@ class Blend(Token):
     def eval(self, env):
         x, y = env.get(self.im1), env.get(self.im2)
         if not x:
-            raise Exception(f"{x} could not be found :C")
+            raise Exception(f"{self.im} could not be found :C")
         if not y:
             raise Exception(f"{y} could not be found :C")
         z = Image.blend(x, y, self.alpha.eval())
@@ -295,7 +295,7 @@ class Convert(Token):
     def eval(self, env):
         x = env.get(self.im)
         if not x:
-            raise Exception(f"{x} could not be found :C")
+            raise Exception(f"{self.im} could not be found :C")
         env[self.im] = x.convert(self.mode.eval())
 
 class UrlOpen(Token):
@@ -322,7 +322,7 @@ class Ellipse(Token):
     def eval(self, env):
         x = env.get(self.im)
         if not x:
-            raise Exception(f"{x} could not be found :C")
+            raise Exception(f"{self.im} could not be found :C")
         draw = ImageDraw.Draw(x)
         xy = tuple(map(int, self.xy.eval()))
         fill = tuple(map(int, self.fill)) # type: ignore
@@ -338,7 +338,7 @@ class Save(Token):
     def eval(self, env):
         x = env.get(self.im)
         if not x:
-            raise Exception(f"{x} could not be found :C")
+            raise Exception(f"{self.im} could not be found :C")
         x.save(self.filename.eval())
 
 class Close(Token):

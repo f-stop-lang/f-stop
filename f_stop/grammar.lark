@@ -21,6 +21,7 @@ statement: "OPEN"i string "AS"i NAME -> open_stmt
         | "ELLIPSE" NAME ntuple color? color? INTEGER? -> ellipse_stmt
         | "SAVE" NAME string -> save_stmt
         | "CLOSE" NAME -> close_stmt
+        | "ITER" NAME "AS" NAME "{" statement* "}" -> iter_stmt
 string: /("[^"\\]*(\\.[^"\\]*)*"|'[^'\\]*(\\.[^'\\]*)*')/
 integer: /-?\d+/
 ntuple: "(" (NUMBER ",")* NUMBER ")"
