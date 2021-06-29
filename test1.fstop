@@ -1,5 +1,5 @@
-OPEN 'test.png' AS im
+OPEN 'sus.gif' AS im
 ITER im AS i { 
-INVERT i 
+RESIZE i (400, 400)
 }
 SAVE im "iter.gif"

@@ -340,9 +340,10 @@ class Save(Token):
         x: Image.Image = env.get(self.im)
         if not x:
             raise Exception(f"{self.im} could not be found :C")
-        if x.format == "GIF":
-            x.save(self.filename.eval(), x.format, loop=0, save_all=True)
-        x.save(self.filename.eval())
+        if isinstance(x, list):
+            x[0].save(self.filename.eval(), append_images=x[1:], save_all=True, loop=0, duration=1)
+        else:
+            x.save(self.filename.eval())
 
 class Close(Token):
     def __init__(self, im):
@@ -364,14 +365,18 @@ class Iterate(Token):
         x = env.get(self.image)
         if not x:
             raise Exception(f"{self.image} could not be found :C")
-
+        frames = []
         for i in ImageSequence.Iterator(x):
             env[self.name] = i
             print(env.images.keys())
             for statement in self.statements:
                 statement.eval(env)
+                frames.append(env.get(self.name))
+
 
         try:
             del env[self.name]
         except KeyError:
             pass
+
+        env[self.image] = frames
