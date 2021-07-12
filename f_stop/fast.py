@@ -368,11 +368,11 @@ class Iterate(Token):
         if not x:
             raise Exception(f"{self.image} could not be found :C")
         frames = []
-        for i in ImageSequence.Iterator(x):
+        for j, i in enumerate(ImageSequence.Iterator(x)):
             env[self.name] = i
             for statement in self.statements:
                 statement.eval(env)
-                frames.append(env.get(self.name))
+            frames.append(env.get(self.name))
 
 
         try:
