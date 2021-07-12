@@ -71,6 +71,7 @@ class Resize(Token):
     def eval(self, env):
         if not (x := env.images.get(self.image)):
             raise Exception(f'{self.image} COULD NOT BE FOUND YOU DUMBO')
+        print(f"Resizing image {self.image} to {self.tup.eval()}, current size: ", x.size, "current mode: ", x.mode)
         env[self.image] = x.resize(tuple(int(i) for i in self.tup.eval(env)))
 
 
@@ -296,6 +297,7 @@ class Convert(Token):
         x = env.get(self.im)
         if not x:
             raise Exception(f"{self.im} could not be found :C")
+        print(f"converting image {self.im} to mode {self.mode.eval()}, current size: ", x.size, "current mode: ", x.mode)
         env[self.im] = x.convert(self.mode.eval())
 
 class UrlOpen(Token):
@@ -341,7 +343,7 @@ class Save(Token):
         if not x:
             raise Exception(f"{self.im} could not be found :C")
         if isinstance(x, list):
-            x[0].save(self.filename.eval(), append_images=x[1:], save_all=True, loop=0, duration=1)
+            x[0].save(self.filename.eval(), append_images=x[1:], save_all=True, loop=0, duration=20)
         else:
             x.save(self.filename.eval())
 
@@ -368,7 +370,6 @@ class Iterate(Token):
         frames = []
         for i in ImageSequence.Iterator(x):
             env[self.name] = i
-            print(env.images.keys())
             for statement in self.statements:
                 statement.eval(env)
                 frames.append(env.get(self.name))
@@ -380,3 +381,4 @@ class Iterate(Token):
             pass
 
         env[self.image] = frames
+

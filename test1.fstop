@@ -1,5 +1,6 @@
 OPEN 'sus.gif' AS im
 ITER im AS i { 
 RESIZE i (400, 400)
+CONVERT i "L"
 }
 SAVE im "iter.gif"
