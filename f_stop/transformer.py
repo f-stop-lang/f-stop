@@ -98,5 +98,6 @@ class FStopTransformer(Transformer):
 
     def new_stmt(self, mode, size, color, name):
         return New(mode=mode, size=size, color=color, name=name)
+    
     def print_stmt(self, str_arg):
         return print(str(str_arg).strip("'").strip('"'))
