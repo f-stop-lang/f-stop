@@ -92,3 +92,9 @@ class FStopTransformer(Transformer):
 
     def iter_stmt(self, im, name, *statements):
         return Iterate(im, name, statements)
+
+    def new_stmt_no_color(self, mode, size, name):
+        return New(mode=mode, size=size, name=name)
+
+    def new_stmt(self, mode, size, color, name):
+        return New(mode=mode, size=size, color=color, name=name)

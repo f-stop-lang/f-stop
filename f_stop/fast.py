@@ -71,7 +71,6 @@ class Resize(Token):
     def eval(self, env):
         if not (x := env.images.get(self.image)):
             raise Exception(f'{self.image} COULD NOT BE FOUND YOU DUMBO')
-        print(f"Resizing image {self.image} to {self.tup.eval()}, current size: ", x.size, "current mode: ", x.mode)
         env[self.image] = x.resize(tuple(int(i) for i in self.tup.eval(env)))
 
 
@@ -297,7 +296,6 @@ class Convert(Token):
         x = env.get(self.im)
         if not x:
             raise Exception(f"{self.im} could not be found :C")
-        print(f"converting image {self.im} to mode {self.mode.eval()}, current size: ", x.size, "current mode: ", x.mode)
         env[self.im] = x.convert(self.mode.eval())
 
 class UrlOpen(Token):
@@ -330,7 +328,7 @@ class Ellipse(Token):
         xy = tuple(map(int, self.xy.eval()))
         fill = tuple(map(int, self.fill)) # type: ignore
         outline = tuple(map(int, self.outline))
-        draw.ellipse(xy, fill, outline, width=int(self.width.eval()))
+        draw.ellipse(xy, fill, outline, width=int(self.width.eval())) # type: ignore
         env[self.im] = x
 
 class Save(Token):
@@ -381,4 +379,20 @@ class Iterate(Token):
             pass
 
         env[self.image] = frames
+
+class New(Token):
+    def __init__(self, *,  mode, size, color=0, name):
+        self.mode = mode
+        self.size = size
+        self.color = color
+        self.name = name
+
+    def eval(self, env):
+        print(type(self.color))
+        size = tuple(map(int, self.size.eval()))
+        if not isinstance(self.color, int):
+            self.color = tuple(map(int, self.color))
+        im = Image.new(self.mode.eval(), size, self.color.eval().__int__() if isinstance(self.color, Color) else self.color) # type: ignore
+        env[self.name] = im
+        
 

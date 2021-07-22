@@ -22,13 +22,15 @@ statement: "OPEN"i string "AS"i NAME -> open_stmt
         | "SAVE" NAME string -> save_stmt
         | "CLOSE" NAME -> close_stmt
         | "ITER" NAME "AS" NAME "{" statement* "}" -> iter_stmt
+        | "NEW" string ntuple  "AS" NAME -> new_stmt_no_color
+        | "NEW" string ntuple color "AS" NAME -> new_stmt
 string: /("[^"\\]*(\\.[^"\\]*)*"|'[^'\\]*(\\.[^'\\]*)*')/
 integer: /-?\d+/
 ntuple: "(" (NUMBER ",")* NUMBER ")"
 color_tuple: "COLOR"i ntuple
 color_int: "COLOR"i INTEGER
 color_string: "COLOR"i string
-?color: color_tuple | color_int
+?color: color_tuple | color_int | color_string
 font: "FONT" "(" string "," INTEGER? ")"
 %import common.WS
 %ignore WS

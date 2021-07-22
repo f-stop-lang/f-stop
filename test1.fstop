@@ -1,6 +1,3 @@
-OPEN 'sus.gif' AS im
-ITER im AS i { 
-RESIZE i (400, 400)
-CONVERT i "L"
-}
-SAVE im "iter.gif"
+NEW "RGBA" (200, 200) COLOR (255, 0, 0) AS im
+
+SAVE im "sus.png"
