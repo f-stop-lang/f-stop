@@ -24,6 +24,7 @@ statement: "OPEN"i string "AS"i NAME -> open_stmt
         | "ITER" NAME "AS" NAME "{" statement* "}" -> iter_stmt
         | "NEW" string ntuple  "AS" NAME -> new_stmt_no_color
         | "NEW" string ntuple color "AS" NAME -> new_stmt
+        |"PRINT" string -> print_stmt
 string: /("[^"\\]*(\\.[^"\\]*)*"|'[^'\\]*(\\.[^'\\]*)*')/
 integer: /-?\d+/
 ntuple: "(" (NUMBER ",")* NUMBER ")"

@@ -18,7 +18,10 @@ class String:
     def __repr__(self) -> str:
 
         return f'<String "{self.value}">'
-
+    
+    def __str__(self) -> str :
+        return self.value
+        
     def eval(self, env=None) -> str:
         return self.value
 
