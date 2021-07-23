@@ -50,11 +50,11 @@ class Open:
     Represents the open statement.
     """
 
-    def __init__(self, image: ..., value: ...) -> None:
+    def __init__(self, image: Image.Image, value: str) -> None:
         self.value = String(value)
         self.image = image
 
-    def eval(self, env):
+    def eval(self, env: Env) -> Any:
         env[self.value.eval(env)] = Image.open(self.image.eval())
 
 
@@ -64,53 +64,55 @@ class Token(ABC):
         
         
 class Resize(Token):
-    def __init__(self, image: str, tup) -> None:
-        self.image = image
-        self.tup = tup
+    def __init__(self, image: str, tup: Tuple[int, int]) -> None:
+        self.image: str = image
+        self.tup: Tuple[int, int] = tup
 
-    def eval(self, env):
-        if not (x := env.images.get(self.image)):
+    def eval(self, env, Env) -> Any:
+        x = env.images.get(self.image)
+        if not x:
             raise Exception(f'{self.image} COULD NOT BE FOUND YOU DUMBO')
         env[self.image] = x.resize(tuple(int(i) for i in self.tup.eval(env)))
 
 
 class Start(Token):
-    def __init__(self, statements) -> None:
-        self.statements = statements
+    def __init__(self, statements: List[...]) -> None:
+        self.statements: List[...] = statements
 
-    def eval(self, env: Env):
+    def eval(self, env: Env) -> Any:
         for i in self.statements:
             i.eval(env)
 
 
 class Tuple(Token):
-    def __init__(self, tup) -> None:
-        self.tuple = tup
+    def __init__(self, tup: Tuple[int, ...]) -> None:
+        self.tuple: Tuple[int, ...] = tup
         #print(tup)
 
-    def eval(self, env: Env=None):
+    def eval(self, env: Optional[Env] = None) -> Tuple[int, ...]:
         return tuple(i.eval(env) for i in self.tuple)
 
-    def __int__(self):
-        return tuple(i.__int__() for i in self.tuple)
+    def __int__(self, /) -> int:
+        # note to komodo: why the fuck are you returning a tuple here
+        return tuple(map(int, self.tuple))
 
 
 class Invert(Token):
     def __init__(self, im: str):
-        self.im = im
+        self.im: str = im
 
-    def eval(self, env):
+    def eval(self, env: Env) -> None:
         if not (x := env.get(self.im)):
             raise NameError(f'{self.im} COULD NOT BE FOUND YOU LAXY BIINCH')
         env[self.im] = ImageOps.invert(x.convert('RGB'))
 
 
 class Solarize(Token):
-    def __init__(self, im, thres) -> None:
-        self.im = im
-        self.thres = thres
+    def __init__(self, im: str, thres: float) -> None:
+        self.im: str = im
+        self.thres: float = thres
 
-    def eval(self, env: Env):
+    def eval(self, env: Env) -> None:
         if not (x := env.get(self.im)):
             raise NameError(f'{self.im} COULD NOT BE FOUND YOU LAXY BIINCH')
         env[self.im] = ImageOps.solarize(
