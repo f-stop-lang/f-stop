@@ -22,7 +22,7 @@ class FStopTransformer(Transformer):
         return Start(statements)
 
     def ntuple(self, *tup) -> Tuple:
-        return Tuple(tup)
+        return NTuple(tup)
 
     def invert_stmt(self, var) -> Invert:
         return Invert(var)
@@ -50,7 +50,6 @@ class FStopTransformer(Transformer):
 
     def arc_stmt(self, im, xy, start, end, fill, width=Number(5)):
         return Arc(im, xy, start, end, fill, width)
-
 
     def font(self, font, size=Number(10)):
         return Font(font, size)
@@ -102,3 +101,6 @@ class FStopTransformer(Transformer):
 
     def echo_stmt(self, string):
         return Echo(string)
+
+    def color_string(self, string):
+        return string.eval()
