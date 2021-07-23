@@ -19,7 +19,7 @@ class String:
 
         return f'<String "{self.value}">'
 
-    def eval(self, env=None) -> str:
+    def eval(self, env=None) -> str: # type: ignore
         return self.value
 
 
@@ -59,7 +59,7 @@ class Open:
 
 
 class Token(ABC):
-    def eval(self, env: Optional[Env] = None) -> Any:
+    def eval(self, env: Optional[Env] = None) -> Any: # type: ignore
         raise NotImplementedError
         
         
@@ -225,7 +225,7 @@ class Rectangle(Token):
         xy = tuple(map(int, self.xy.eval()))
         fill = tuple(map(int, self.fill)) # type: ignore
         outline = tuple(map(int, self.outline)) # type: ignore
-        draw.rectangle(xy, fill, outline, int(self.width.eval()),)
+        draw.rectangle(xy, fill, outline, int(self.width.eval()),) # type: ignore
         env[self.im] = x
 
 class Line(Token):
@@ -268,7 +268,7 @@ class Text(Token):
         draw = ImageDraw.Draw(x)
         xy = tuple(map(int, self.xy.eval()))
         fill = tuple(map(int, self.color)) # type: ignore
-        draw.text(xy, self.text.eval(), fill, self.font.eval())
+        draw.text(xy, self.text.eval(), fill, self.font.eval()) # type: ignore
         env[self.im] = x
 
 class Blend(Token):
@@ -281,9 +281,9 @@ class Blend(Token):
     def eval(self, env):
         x, y = env.get(self.im1), env.get(self.im2)
         if not x:
-            raise Exception(f"{self.im} could not be found :C")
+            raise Exception(f"{self.im1} could not be found :C")
         if not y:
-            raise Exception(f"{y} could not be found :C")
+            raise Exception(f"{self.im2} could not be found :C")
         z = Image.blend(x, y, self.alpha.eval())
         env[self.new_im] = z
 
@@ -383,7 +383,7 @@ class Iterate(Token):
 class New(Token):
     def __init__(self, *,  mode, size, color=0, name):
         self.mode = mode
-        self.size = size
+        self.size: Tuple = size
         self.color = color
         self.name = name
 
@@ -394,5 +394,11 @@ class New(Token):
             self.color = tuple(map(int, self.color))
         im = Image.new(self.mode.eval(), size, self.color.eval().__int__() if isinstance(self.color, Color) else self.color) # type: ignore
         env[self.name] = im
-        
+    
+class Echo:
+    def __init__(self, string):
+        self.string = string
+    
+    def eval(self, env):
+        print(self.string.eval())
 

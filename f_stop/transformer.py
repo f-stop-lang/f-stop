@@ -51,6 +51,7 @@ class FStopTransformer(Transformer):
     def arc_stmt(self, im, xy, start, end, fill, width=Number(5)):
         return Arc(im, xy, start, end, fill, width)
 
+
     def font(self, font, size=Number(10)):
         return Font(font, size)
 
@@ -98,3 +99,6 @@ class FStopTransformer(Transformer):
 
     def new_stmt(self, mode, size, color, name):
         return New(mode=mode, size=size, color=color, name=name)
+
+    def echo_stmt(self, string):
+        return Echo(string)
