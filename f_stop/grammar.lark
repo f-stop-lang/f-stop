@@ -18,13 +18,15 @@ statement: "OPEN"i string "AS"i NAME -> open_stmt
         | "BLEND"i NAME NAME NUMBER "AS"i NAME -> blend_stmt
         | "CONVERT"i NAME string -> convert_stmt
         | "OPEN"i "URL"i string "AS"i NAME -> url_stmt
-        | "ELLIPSE" NAME ntuple color? color? INTEGER? -> ellipse_stmt
-        | "SAVE" NAME string -> save_stmt
-        | "CLOSE" NAME -> close_stmt
-        | "ITER" NAME "AS" NAME "{" statement* "}" -> iter_stmt
-        | "NEW" string ntuple  "AS" NAME -> new_stmt_no_color
-        | "NEW" string ntuple color "AS" NAME -> new_stmt
-        | "ECHO" string -> echo_stmt
+        | "ELLIPSE"i NAME ntuple color? color? INTEGER? -> ellipse_stmt
+        | "SAVE"i NAME string -> save_stmt
+        | "CLOSE"i NAME -> close_stmt
+        | "ITER"i NAME "AS"i NAME "{" statement* "}" -> iter_stmt
+        | "NEW"i string ntuple  "AS" NAME -> new_stmt_no_color
+        | "NEW"i string ntuple color "AS" NAME -> new_stmt
+        | "ECHO"i string -> echo_stmt
+        | "PUTPIXEL"i NAME ntuple (color_int | color_tuple) -> putpixel_stmt
+        | "ENHANCE"i NAME string NUMBER -> enhance_stmt
 string: /("[^"\\]*(\\.[^"\\]*)*"|'[^'\\]*(\\.[^'\\]*)*')/
 integer: /-?\d+/
 ntuple: "(" (NUMBER ",")* NUMBER ")"

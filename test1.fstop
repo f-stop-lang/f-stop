@@ -1,3 +1,4 @@
 NEW "RGBA" (200, 200) COLOR "RED" AS im
-//SOLARIZE im 4
+PUTPIXEL im (150, 150) COLOR (0, 0, 0)
+ENHANCE im "contrast" 1
 SAVE im "sus.png"

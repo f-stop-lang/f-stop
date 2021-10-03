@@ -21,7 +21,7 @@ class FStopTransformer(Transformer):
     def start(self, *statements) -> Start:
         return Start(statements)
 
-    def ntuple(self, *tup) -> Tuple:
+    def ntuple(self, *tup) -> NTuple:
         return NTuple(tup)
 
     def invert_stmt(self, var) -> Invert:
@@ -104,3 +104,10 @@ class FStopTransformer(Transformer):
 
     def color_string(self, string):
         return string.eval()
+
+    def putpixel_stmt(self, image, xy, color):
+        return Putpixel(image, xy, color)
+
+    def enhance_stmt(self, im, filter_type, number):
+        return Enhance(im, filter_type, number)
+

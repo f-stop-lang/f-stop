@@ -3,7 +3,7 @@ from io import BytesIO
 import re
 from typing import Any, Dict, Optional, Tuple, TypeVar
 from typing import List
-from PIL import Image, ImageOps, ImageDraw, ImageFont, ImageSequence
+from PIL import Image, ImageOps, ImageDraw, ImageFont, ImageSequence, ImageEnhance
 import urllib.request as requests
 
 
@@ -77,10 +77,6 @@ class NTuple(Token):
     def eval(self, env: Optional[Env] = None) -> Tuple[int, ...]:
         return tuple(i.eval(env) for i in self.tuple)   # type: ignore
 
-    def __int__(self, /) -> Tuple:
-        # note to komodo: why the fuck are you returning a tuple here
-        return tuple(map(int, self.tuple))
-
 
 class Open:
     """
@@ -110,8 +106,8 @@ class Resize(Token):
 
 
 class Start(Token):
-    def __init__(self, statements: List[T]) -> None:
-        self.statements: List[T] = statements
+    def __init__(self, statements: Tuple[T]) -> None:
+        self.statements = statements
 
     def eval(self, env: Env) -> Any:
         for i in self.statements:
@@ -219,7 +215,7 @@ class Arc(Token):
             xy,
             int(self.start.eval(env)),
             int(self.end.eval(env)),
-            fill,
+            fill,                     # type: ignore
             int(self.width.eval()),
         )   # type: ignore
         env[self.im] = x
@@ -440,7 +436,6 @@ class New(Token):
         self.name = name
 
     def eval(self, env):
-        print(type(self.color))
         size = tuple(map(int, self.size.eval()))
         if not isinstance(self.color, (int, str)):
             self.color = tuple(map(int, self.color.eval())) if isinstance(self.color, NTuple) else self.color 
@@ -451,9 +446,39 @@ class New(Token):
         env[self.name] = im
 
 
-class Echo:
+class Echo(Token):
     def __init__(self, string):
         self.string = string
 
     def eval(self, env):
         print(self.string.eval())
+
+class Putpixel(Token):
+    def __init__(self, image, xy, color) -> None:
+        self.image = image
+        self.xy  = xy
+        self.color = color
+
+    def eval(self, env):
+        x: Image.Image = env.get(self.image)
+        if not x:
+            raise Exception(f'{self.image} could not be found :C')
+        color = tuple(map(int, self.color)       )                if isinstance(self.color, tuple) else int(self.color)
+        xy = tuple(map(int, self.xy.eval()))
+        x.putpixel(xy, color) 
+
+
+class Enhance:
+    def __init__(self, im, filter_type: String, number) -> None:
+        self.image = im
+        self.filter_type = filter_type
+        self.number = number
+
+    def eval(self, env: Env):
+        x: Image.Image = env.get(self.image)
+        if not x:
+            raise Exception(f'{self.image} could not be found :C')
+
+        filter = getattr(ImageEnhance, self.filter_type.eval().title())
+        enhance = filter(x)
+        enhance.enhance(self.number.eval())
