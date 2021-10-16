@@ -106,11 +106,12 @@ class Resize(Token):
 
 
 class Start(Token):
-    def __init__(self, statements: Tuple[T]) -> None:
+    def __init__(self, statements) -> None:
         self.statements = statements
 
-    def eval(self, env: Env) -> Any:
+    def eval(self, env) -> Any:
         for i in self.statements:
+            print(i)
             i.eval(env)
 
 
