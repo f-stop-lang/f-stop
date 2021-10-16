@@ -98,7 +98,7 @@ class Resize(Token):
         self.image: str = image
         self.tup: NTuple = tup
 
-    def eval(self, env, Env) -> Any:
+    def eval(self, env) -> Any:
         x = env.images.get(self.image)
         if not x:
             raise Exception(f'{self.image} COULD NOT BE FOUND YOU DUMBO')

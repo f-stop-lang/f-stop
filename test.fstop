@@ -1,5 +1,5 @@
 OPEN 'test.png' AS im
-RESIZE im (300, 300)
+//RESIZE im (300, 300)
 //OPEN URL "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png" AS sus
 //ARC img (50, 50, 100, 100) 100 -5 COLOR (255, 255, 255) 1
 //RECTANGLE img (50, 50, 100, 100) COLOR (0, 0, 0) COLOR (255, 255, 255) 5
