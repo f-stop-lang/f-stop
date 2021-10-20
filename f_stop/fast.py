@@ -485,3 +485,9 @@ class Enhance:
         filter = getattr(ImageEnhance, self.filter_type.eval().title())
         enhance = filter(x)
         enhance.enhance(self.number.eval())
+
+class Canny:
+    def __init__(self, im, thres1, thres2):
+        self.im = im
+        self.thres1 = thres1
+        self.thres2 = thres2        
