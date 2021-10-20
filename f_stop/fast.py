@@ -5,6 +5,8 @@ from typing import Any, Dict, Optional, Tuple, TypeVar
 from typing import List
 from PIL import Image, ImageOps, ImageDraw, ImageFont, ImageSequence, ImageEnhance
 import urllib.request as requests
+import cv2
+import numpy
 
 
 class Env:

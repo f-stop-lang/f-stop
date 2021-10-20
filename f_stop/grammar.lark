@@ -27,6 +27,7 @@ statement: "OPEN"i string "AS"i NAME -> open_stmt
         | "ECHO"i string -> echo_stmt
         | "PUTPIXEL"i NAME ntuple (color_int | color_tuple) -> putpixel_stmt
         | "ENHANCE"i NAME string NUMBER -> enhance_stmt
+        
 string: /("[^"\\]*(\\.[^"\\]*)*"|'[^'\\]*(\\.[^'\\]*)*')/
 integer: /-?\d+/
 ntuple: "(" (NUMBER ",")* NUMBER ")"
