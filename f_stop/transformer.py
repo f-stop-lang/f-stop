@@ -111,3 +111,5 @@ class FStopTransformer(Transformer):
     def enhance_stmt(self, im, filter_type, number):
         return Enhance(im, filter_type, number)
 
+    def canny_stmt(self, im, thres1, thres2):
+        return Canny(im, thres1, thres2)

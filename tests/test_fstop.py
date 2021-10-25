@@ -5,7 +5,7 @@ from PIL import Image, ImageDraw
 
 
 if __name__ == '__main__':
-    with open('test.fstop') as ft:
+    with open('test1.fstop') as ft:
         text = ft.read()
     f_stop_parser = Lark.open('../f_stop/grammar.lark', rel_to=__file__)
     parsed = f_stop_parser.parse(text)

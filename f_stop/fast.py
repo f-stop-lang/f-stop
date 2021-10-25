@@ -5,7 +5,7 @@ from typing import Any, Dict, Optional, Tuple, TypeVar
 from typing import List
 from PIL import Image, ImageOps, ImageDraw, ImageFont, ImageSequence, ImageEnhance
 import urllib.request as requests
-import cv2
+import cv2 as cv2
 import numpy
 
 
@@ -490,4 +490,14 @@ class Canny:
     def __init__(self, im, thres1, thres2):
         self.im = im
         self.thres1 = thres1
-        self.thres2 = thres2        
+        self.thres2 = thres2
+
+    def eval(self, env: Env):
+        x: Image.Image = env.get(self.im)
+        if not x:
+            raise Exception(f'{self.im} could not be found :C')
+        arr = numpy.asarray(x)
+        im = cv2.cvtColor(arr, cv2.COLOR_RGB2BGR)
+        thing = cv2.Canny(im, self.thres1.eval(), self.thres2.eval())
+        env[self.im] = Image.fromarray(cv2.cvtColor(thing, cv2.COLOR_BGR2RGB))
+
