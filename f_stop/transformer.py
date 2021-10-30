@@ -113,3 +113,6 @@ class FStopTransformer(Transformer):
 
     def canny_stmt(self, im, thres1, thres2):
         return Canny(im, thres1, thres2)
+
+    def cvt_stmt(self, im, filter):
+        return CvtColor(im, filter)

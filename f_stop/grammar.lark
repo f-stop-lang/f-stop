@@ -28,6 +28,7 @@ statement: "OPEN"i string "AS"i NAME -> open_stmt
         | "PUTPIXEL"i NAME ntuple (color_int | color_tuple) -> putpixel_stmt
         | "ENHANCE"i NAME string NUMBER -> enhance_stmt
         | "CANNY"i NAME NUMBER NUMBER -> canny_stmt
+        | "CVTCOLOR"i NAME string -> cvt_stmt
 string: /("[^"\\]*(\\.[^"\\]*)*"|'[^'\\]*(\\.[^'\\]*)*')/
 integer: /-?\d+/
 ntuple: "(" (NUMBER ",")* NUMBER ")"
