@@ -29,6 +29,8 @@ statement: "OPEN"i string "AS"i NAME -> open_stmt
         | "ENHANCE"i NAME string NUMBER -> enhance_stmt
         | "CANNY"i NAME NUMBER NUMBER -> canny_stmt
         | "CVTCOLOR"i NAME string -> cvt_stmt
+        | "CASCADE"i string -> cascade
+        | "DETECT"i
 string: /("[^"\\]*(\\.[^"\\]*)*"|'[^'\\]*(\\.[^'\\]*)*')/
 integer: /-?\d+/
 ntuple: "(" (NUMBER ",")* NUMBER ")"

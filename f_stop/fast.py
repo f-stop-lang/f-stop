@@ -3,7 +3,14 @@ from io import BytesIO
 import re
 from typing import Any, Dict, Optional, Tuple, TypeVar
 from typing import List
-from PIL import Image, ImageOps, ImageDraw, ImageFont, ImageSequence, ImageEnhance
+from PIL import (
+    Image,
+    ImageOps,
+    ImageDraw,
+    ImageFont,
+    ImageSequence,
+    ImageEnhance,
+)
 import urllib.request as requests
 import cv2 as cv2
 import numpy
@@ -218,7 +225,7 @@ class Arc(Token):
             xy,
             int(self.start.eval(env)),
             int(self.end.eval(env)),
-            fill,                     # type: ignore
+            fill,  # type: ignore
             int(self.width.eval()),
         )   # type: ignore
         env[self.im] = x
@@ -441,11 +448,14 @@ class New(Token):
     def eval(self, env):
         size = tuple(map(int, self.size.eval()))
         if not isinstance(self.color, (int, str)):
-            self.color = tuple(map(int, self.color.eval())) if isinstance(self.color, NTuple) else self.color 
+            self.color = (
+                tuple(map(int, self.color.eval()))
+                if isinstance(self.color, NTuple)
+                else self.color
+            )
         im = Image.new(
-            self.mode.eval(),
-            size, # type: ignore
-            self.color)   # type: ignore
+            self.mode.eval(), size, self.color  # type: ignore
+        )   # type: ignore
         env[self.name] = im
 
 
@@ -456,22 +466,27 @@ class Echo(Token):
     def eval(self, env):
         print(self.string.eval())
 
+
 class Putpixel(Token):
     def __init__(self, image, xy, color) -> None:
         self.image = image
-        self.xy  = xy
+        self.xy = xy
         self.color = color
 
     def eval(self, env):
         x: Image.Image = env.get(self.image)
         if not x:
             raise Exception(f'{self.image} could not be found :C')
-        color = tuple(map(int, self.color)       )                if isinstance(self.color, tuple) else int(self.color)
+        color = (
+            tuple(map(int, self.color))
+            if isinstance(self.color, tuple)
+            else int(self.color)
+        )
         xy = tuple(map(int, self.xy.eval()))
-        x.putpixel(xy, color) 
+        x.putpixel(xy, color)
 
 
-class Enhance:
+class Enhance(Token):
     def __init__(self, im, filter_type: String, number) -> None:
         self.image = im
         self.filter_type = filter_type
@@ -486,7 +501,8 @@ class Enhance:
         enhance = filter(x)
         enhance.enhance(self.number.eval())
 
-class Canny:
+
+class Canny(Token):
     def __init__(self, im, thres1, thres2):
         self.im = im
         self.thres1 = thres1
@@ -501,7 +517,8 @@ class Canny:
         thing = cv2.Canny(im, self.thres1.eval(), self.thres2.eval())
         env[self.im] = Image.fromarray(cv2.cvtColor(thing, cv2.COLOR_BGR2RGB))
 
-class CvtColor:
+
+class CvtColor(Token):
     def __init__(self, im, filter) -> None:
         self.im = im
         self.filter: String = filter
@@ -512,8 +529,13 @@ class CvtColor:
             raise Exception(f'{self.im} could not be found :C')
         arr = numpy.asarray(x)
         im = cv2.cvtColor(arr, cv2.COLOR_RGB2BGR)
-        thing = cv2.cvtColor(im, getattr(cv2, self.filter.eval() if self.filter.eval().startswith('COLOR_') else "COLOR_" + self.filter.eval()))
+        thing = cv2.cvtColor(
+            im,
+            getattr(
+                cv2,
+                self.filter.eval()
+                if self.filter.eval().startswith('COLOR_')
+                else 'COLOR_' + self.filter.eval(),
+            ),
+        )
         env[self.im] = Image.fromarray(thing)
-
-
-
