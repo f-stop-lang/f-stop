@@ -1,9 +1,10 @@
+from typing import List
+
 from PIL.Image import new
+
 from lark import Transformer, v_args
 
 from .fast import *  # type: ignore
-
-from typing import List
 
 
 @v_args(inline=True)
@@ -116,3 +117,6 @@ class FStopTransformer(Transformer):
 
     def cvt_stmt(self, im, filter):
         return CvtColor(im, filter)
+
+    def cascade(self, path, var):
+        return Cascade(path, var)

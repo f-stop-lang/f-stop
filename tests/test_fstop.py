@@ -1,8 +1,8 @@
-from f_stop.transformer import FStopTransformer
-from f_stop.fast import Env
-from lark import Lark
 from PIL import Image, ImageDraw
 
+from f_stop.fast import Env
+from f_stop.transformer import FStopTransformer
+from lark import Lark
 
 if __name__ == '__main__':
     with open('test1.fstop') as ft:

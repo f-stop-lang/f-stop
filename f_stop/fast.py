@@ -1,17 +1,12 @@
+import re
+import urllib.request as requests
 from abc import ABC
 from io import BytesIO
-import re
-from typing import Any, Dict, Optional, Tuple, TypeVar
-from typing import List
-from PIL import (
-    Image,
-    ImageOps,
-    ImageDraw,
-    ImageFont,
-    ImageSequence,
-    ImageEnhance,
-)
-import urllib.request as requests
+from typing import Any, Dict, List, Optional, Tuple, TypeVar
+
+from PIL import (Image, ImageDraw, ImageEnhance, ImageFont, ImageOps,
+                 ImageSequence)
+
 import cv2 as cv2
 import numpy
 
@@ -23,6 +18,7 @@ class Env:
 
     def __init__(self) -> None:
         self.images: Dict[str, Image.Image] = {}
+        self.cascade_cache: Dict[str, cv2.CascadeClassifier] = {}
 
     # Honestly, these aren't necessary, i'm just very lazy to type env.images a buncha times
     def __setitem__(self, key: str, value: Any) -> None:
@@ -539,3 +535,14 @@ class CvtColor(Token):
             ),
         )
         env[self.im] = Image.fromarray(thing)
+
+
+class Cascade(Token):
+    def __init__(self, path, var) -> None:
+        self.path = path
+        self.var = var
+
+    def eval(self, env: Env):
+        thing = cv2.CascadeClassifier(self.path.eval())
+        env.cascade_cache[self.var] = thing
+        print(env.cascade_cache)

@@ -1,3 +1,1 @@
-OPEN URL "https://cdn.discordapp.com/avatars/717886891445321759/8223078309420d2eaaeab3c435a9ec84.png?size=256" AS sus
-INVERT sus
-SAVE sus "amogus.png"
+OPEN CASCADE "haarcascade_frontalface_default.xml" AS sus
