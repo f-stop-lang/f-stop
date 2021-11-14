@@ -7,7 +7,7 @@ from typing import Any, Dict, List, Optional, Tuple, TypeVar
 from PIL import (Image, ImageDraw, ImageEnhance, ImageFont, ImageOps,
                  ImageSequence)
 
-import cv2 as cv2
+import cv2 
 import numpy
 
 
@@ -545,4 +545,29 @@ class Cascade(Token):
     def eval(self, env: Env):
         thing = cv2.CascadeClassifier(self.path.eval())
         env.cascade_cache[self.var] = thing
-        print(env.cascade_cache)
+
+class Detect(Token):
+    def __init__(self, im, casc, scalefactor, minneighbors, minsize) -> None:
+        self.im = im
+        self.casc = casc
+        self.scalefactor = scalefactor
+        self.minneighbors = minneighbors
+        self.minsize = minsize
+
+    def eval(self, env: Env):
+        x: Image.Image = env.get(self.im)
+        if not x:
+            raise Exception(f'{self.im} could not be found :C')
+        casc = env.cascade_cache.get(self.casc)
+        if not casc:
+            raise Exception(f'{self.casc} could not be found :C')
+        arr = numpy.asarray(x)
+        im = cv2.cvtColor(arr, cv2.COLOR_RGB2BGR)
+        gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+        minsize = tuple(int(i) for i in self.minsize.eval())
+        detected = casc.detectMultiScale(gray, scaleFactor=self.scalefactor.eval(), minNeighbors=int(self.minneighbors.eval()), minSize=minsize)
+        for (x, y, w, h) in detected:
+            cv2.rectangle(im, (x, y), (x+w, y+h), (0, 255, 0), 2)
+        env[self.im] = Image.fromarray(cv2.cvtColor(im, cv2.COLOR_BGR2RGB))
+
+

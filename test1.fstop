@@ -1,1 +1,4 @@
-OPEN CASCADE "haarcascade_frontalface_default.xml" AS sus
+OPEN CASCADE "haarcascade_frontalface_default.xml" as flush
+OPEN URL "https://thispersondoesnotexist.com/image" as sus
+DETECT sus flush 1.1 5 (30, 30)
+SAVE sus "bulli.png"
