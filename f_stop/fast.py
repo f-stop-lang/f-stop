@@ -547,12 +547,13 @@ class Cascade(Token):
         env.cascade_cache[self.var] = thing
 
 class Detect(Token):
-    def __init__(self, im, casc, scalefactor, minneighbors, minsize) -> None:
+    def __init__(self, im, casc, scalefactor, minneighbors, minsize, color) -> None:
         self.im = im
         self.casc = casc
         self.scalefactor = scalefactor
         self.minneighbors = minneighbors
         self.minsize = minsize
+        self.color  = color
 
     def eval(self, env: Env):
         x: Image.Image = env.get(self.im)
@@ -567,7 +568,7 @@ class Detect(Token):
         minsize = tuple(int(i) for i in self.minsize.eval())
         detected = casc.detectMultiScale(gray, scaleFactor=self.scalefactor.eval(), minNeighbors=int(self.minneighbors.eval()), minSize=minsize)
         for (x, y, w, h) in detected:
-            cv2.rectangle(im, (x, y), (x+w, y+h), (0, 255, 0), 2)
+            cv2.rectangle(im, (x, y), (x+w, y+h), self.color, 2)
         env[self.im] = Image.fromarray(cv2.cvtColor(im, cv2.COLOR_BGR2RGB))
 
 

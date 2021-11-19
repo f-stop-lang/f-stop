@@ -121,5 +121,5 @@ class FStopTransformer(Transformer):
     def cascade(self, path, var):
         return Cascade(path, var)
 
-    def detect_stmt(self, im, casc, scalefactor, minneighbors, minsize):
-        return Detect(im, casc, scalefactor, minneighbors, minsize)
+    def detect_stmt(self, im, casc, scalefactor, minneighbors, minsize, color=(0, 255, 0)):
+        return Detect(im, casc, scalefactor, minneighbors, minsize, color)
