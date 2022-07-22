@@ -1,4 +1,4 @@
-OPEN 'test.png' AS im
+//OPEN 'test.png' AS im
 //RESIZE im (300, 300)
 //OPEN URL "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png" AS sus
 //ARC img (50, 50, 100, 100) 100 -5 COLOR (255, 255, 255) 1
@@ -12,3 +12,7 @@ OPEN 'test.png' AS im
 //CLOSE im
 //CLOSE blended
 //CLOSE img
+OPEN URL "https://en.wikipedia.org/wiki/File:Vladimir_Putin_17-11-2021_(cropped).jpg" as im
+OPEN URL "https://commons.wikimedia.org/wiki/File:Flag_of_the_Soviet_Union.svg" as im1
+BLEND im im1 0.5 AS blended
+SAVE blended 'blended.png'

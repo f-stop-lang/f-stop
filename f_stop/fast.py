@@ -1,3 +1,4 @@
+
 import re
 import urllib.request as requests
 from abc import ABC
@@ -337,6 +338,7 @@ class UrlOpen(Token):
     def __init__(self, url, name):
         self.url = url
         self.name = name
+        print(self.name)
 
     def eval(self, env):
         if not re.match(
@@ -351,8 +353,10 @@ class UrlOpen(Token):
             },
         )
         resp = requests.urlopen(req)
-        env[self.name] = Image.open(BytesIO(resp.read()))
-        print(env[self.name], self.name)
+        byt = resp.read()
+        io = BytesIO(byt)
+        x = Image.open(io)
+        env[self.name] = x
 
 
 class Ellipse(Token):
