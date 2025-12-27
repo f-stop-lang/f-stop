@@ -1,6 +1,6 @@
-OPEN URL "https://upload.wikimedia.org/wikipedia/commons/1/1c/Smiling_Dog_Face.jpg" as im
-OPEN URL "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Thomas_C._Lea_III_-_That_Two-Thousand_Yard_Stare_-_Original.jpg/500px-Thomas_C._Lea_III_-_That_Two-Thousand_Yard_Stare_-_Original.jpg" as im1
-RESIZE im (300, 300)
-RESIZE im1 (300, 300)
-BLEND im im1 0.2 AS blended
-SAVE blended 'blended.png'
+// https://github.com/f-stop-lang/f-stop/commit/ce0fb8b5e5319ffe7b84f762cf9e88dc6069d51d
+OPEN "input.gif" as im
+ITER im as i {
+	INVERT i
+}
+SAVE im "output.gif"

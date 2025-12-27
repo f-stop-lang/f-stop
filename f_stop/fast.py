@@ -318,7 +318,7 @@ class Blend(Token):
             raise Exception(f'{self.im1} could not be found :C')
         if not y:
             raise Exception(f'{self.im2} could not be found :C')
-        z = Image.blend(x, y, self.alpha.eval())
+        z = Image.blend(x.convert("RGBA"), y.convert("RGBA"), self.alpha.eval())
         env[self.new_im] = z
 
 
@@ -396,7 +396,7 @@ class Save(Token):
                 append_images=x[1:],
                 save_all=True,
                 loop=0,
-                duration=20,
+                duration=1,
             )
         else:
             x.save(self.filename.eval())
@@ -424,11 +424,13 @@ class Iterate(Token):
         if not x:
             raise Exception(f'{self.image} could not be found :C')
         frames = []
+        durations = []
         for j, i in enumerate(ImageSequence.Iterator(x)):
             env[self.name] = i
+            durations.append(i.info["duration"])
             for statement in self.statements:
                 statement.eval(env)
-            frames.append(env.get(self.name))
+            frames.append(env.get(self.name).copy())
 
         try:
             del env[self.name]
@@ -436,7 +438,7 @@ class Iterate(Token):
             pass
 
         env[self.image] = frames
-
+        env[self.image+"_durations"] = durations
 
 class New(Token):
     def __init__(self, *, mode, size, color=0, name):
